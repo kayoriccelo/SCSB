@@ -1,0 +1,38 @@
+program Salao;
+
+uses
+  Vcl.Forms,
+  untEntidades.Cadastros in '..\src\Model\Entidades\untEntidades.Cadastros.pas',
+  untEntidades.Dominios in '..\src\Model\Entidades\untEntidades.Dominios.pas',
+  untEntidades.Movimentos in '..\src\Model\Entidades\untEntidades.Movimentos.pas',
+  untRegrasNegocio.Cadastros in '..\src\Controller\RegrasNegocio\untRegrasNegocio.Cadastros.pas',
+  untDao.Cadastros in '..\src\Model\DAO\untDao.Cadastros.pas',
+  untValidacoes in '..\src\Controller\Validacoes\untValidacoes.pas',
+  untEnumerator in '..\src\Model\Util\untEnumerator.pas',
+  untDmConexao in '..\src\Model\Conexao\untDmConexao.pas' {dmConexao: TDataModule},
+  untRelacionamentos in '..\src\Model\DAO\untRelacionamentos.pas',
+  untFmPadrao in '..\src\View\untFmPadrao.pas' {FmPadrao},
+  untFmCadastro in '..\src\View\untFmCadastro.pas' {FmCadastro},
+  untFmLista in '..\src\View\untFmLista.pas' {FmLista},
+  Vcl.Themes,
+  Vcl.Styles,
+  untFrmPrincipal in '..\src\View\untFrmPrincipal.pas' {FmPrincipal},
+  untDao.Dominios in '..\src\Model\Dao\untDao.Dominios.pas',
+  untRegrasNegocio.Dominios in '..\src\Controller\RegrasNegocio\untRegrasNegocio.Dominios.pas',
+  untDmImagens in '..\src\Model\Imagens\untDmImagens.pas' {dmImagens: TDataModule},
+  untLista in '..\src\Model\Forms\untLista.pas',
+  untControleForms in '..\src\Model\Forms\untControleForms.pas',
+  untCadastro in '..\src\Model\Forms\untCadastro.pas',
+  untPesquisa in '..\src\Model\Forms\untPesquisa.pas',
+  untMetodosRtti in '..\src\Model\Dao\untMetodosRtti.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TdmConexao, dmConexao);
+  Application.CreateForm(TdmImagens, dmImagens);
+  Application.CreateForm(TFmPrincipal, FmPrincipal);
+  Application.Run;
+end.

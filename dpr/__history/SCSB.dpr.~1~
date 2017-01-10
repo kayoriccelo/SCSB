@@ -1,0 +1,14 @@
+program SCSB;
+
+uses
+  Vcl.Forms,
+  untFmPrincipal in '..\src\View\untFmPrincipal.pas' {FmMain};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFmMain, FmMain);
+  Application.Run;
+end.
