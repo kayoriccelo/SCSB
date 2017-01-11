@@ -8,24 +8,25 @@ uses
   FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Menus, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxStyles,
-  cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxLabel, dxGDIPlusClasses, cxImage, cxButtons;
+  FireDAC.Comp.Client, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxEdit, cxNavigator, cxDBData, Vcl.Menus, cxButtons, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, cxContainer, cxImage, cxLabel;
 
 type
   TFmList = class(TForm)
     pnlButtons: TPanel;
     qryList: TFDQuery;
     dsList: TDataSource;
+    grdListDBTableView1: TcxGridDBTableView;
+    grdListLevel1: TcxGridLevel;
+    grdList: TcxGrid;
     btnClose: TcxButton;
     btnInsert: TcxButton;
     btnUpdate: TcxButton;
     btnDelete: TcxButton;
     imgTitle: TcxImage;
-    lblTitleMain: TcxLabel;
-    dbGrid: TcxGrid;
-    dbGridTVTblView: TcxGridDBTableView;
-    dbGridLvlGridLevel: TcxGridLevel;
+    cxLabel1: TcxLabel;
+    cxLabel2: TcxLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

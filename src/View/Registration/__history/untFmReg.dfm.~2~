@@ -114,25 +114,6 @@ object FmReg: TFmReg
     Style.IsFontAssigned = True
     Transparent = True
   end
-  object dxLayoutControl1: TdxLayoutControl
-    Left = 0
-    Top = 49
-    Width = 649
-    Height = 381
-    Align = alClient
-    TabOrder = 4
-    LayoutLookAndFeel = dxLayoutSkinLookAndFeel1
-    ExplicitLeft = -24
-    ExplicitTop = 46
-    object dxLayoutControl1Group_Root: TdxLayoutGroup
-      AlignHorz = ahLeft
-      AlignVert = avTop
-      ButtonOptions.Buttons = <>
-      Hidden = True
-      ShowBorder = False
-      Index = -1
-    end
-  end
   object qryReg: TFDQuery
     Left = 472
     Top = 192
@@ -142,13 +123,5 @@ object FmReg: TFmReg
     DataSet = qryReg
     Left = 472
     Top = 248
-  end
-  object dxLayoutLookAndFeelList1: TdxLayoutLookAndFeelList
-    Left = 120
-    Top = 104
-    object dxLayoutSkinLookAndFeel1: TdxLayoutSkinLookAndFeel
-      LookAndFeel.NativeStyle = False
-      LookAndFeel.SkinName = 'Metropolis'
-    end
   end
 end

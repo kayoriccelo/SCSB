@@ -22,6 +22,14 @@ object FmList: TFmList
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object imgTitle: TcxImage
+    Left = 0
+    Top = 0
+    Align = alTop
+    TabOrder = 2
+    Height = 49
+    Width = 649
+  end
   object pnlButtons: TPanel
     AlignWithMargins = True
     Left = 3
@@ -83,21 +91,50 @@ object FmList: TFmList
       ExplicitHeight = 25
     end
   end
-  object cxGrid1: TcxGrid
-    Left = 40
-    Top = 128
-    Width = 250
-    Height = 200
+  object grdList: TcxGrid
+    Left = 0
+    Top = 49
+    Width = 649
+    Height = 381
+    Align = alClient
     TabOrder = 1
-    object cxGrid1DBTableView1: TcxGridDBTableView
+    ExplicitLeft = 136
+    ExplicitTop = 168
+    ExplicitWidth = 250
+    ExplicitHeight = 200
+    object grdListDBTableView1: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
     end
-    object cxGrid1Level1: TcxGridLevel
-      GridView = cxGrid1DBTableView1
+    object grdListLevel1: TcxGridLevel
+      GridView = grdListDBTableView1
     end
+  end
+  object cxLabel1: TcxLabel
+    Left = 8
+    Top = 5
+    Caption = 'Principal'
+    ParentFont = False
+    Style.Font.Charset = ANSI_CHARSET
+    Style.Font.Color = clWindowText
+    Style.Font.Height = -16
+    Style.Font.Name = 'Segoe UI Semibold'
+    Style.Font.Style = [fsBold, fsItalic]
+    Style.IsFontAssigned = True
+  end
+  object cxLabel2: TcxLabel
+    Left = 8
+    Top = 29
+    Caption = 'Secundario'
+    ParentFont = False
+    Style.Font.Charset = ANSI_CHARSET
+    Style.Font.Color = clWindowText
+    Style.Font.Height = -11
+    Style.Font.Name = 'Segoe UI Semibold'
+    Style.Font.Style = [fsBold, fsItalic]
+    Style.IsFontAssigned = True
   end
   object qryList: TFDQuery
     Left = 464

@@ -8,9 +8,9 @@ uses
   FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Menus, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxStyles,
-  cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxLabel, dxGDIPlusClasses, cxImage, cxButtons;
+  FireDAC.Comp.Client, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData, cxFilter, cxData,
+  cxDataStorage, cxEdit, cxNavigator, cxDBData, Vcl.Menus, cxButtons, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, cxContainer, cxImage, cxLabel, dxGDIPlusClasses;
 
 type
   TFmList = class(TForm)
@@ -23,6 +23,7 @@ type
     btnDelete: TcxButton;
     imgTitle: TcxImage;
     lblTitleMain: TcxLabel;
+    lblTitleSecondary: TcxLabel;
     dbGrid: TcxGrid;
     dbGridTVTblView: TcxGridDBTableView;
     dbGridLvlGridLevel: TcxGridLevel;

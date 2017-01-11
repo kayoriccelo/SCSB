@@ -122,8 +122,10 @@ object FmReg: TFmReg
     Align = alClient
     TabOrder = 4
     LayoutLookAndFeel = dxLayoutSkinLookAndFeel1
-    ExplicitLeft = -24
-    ExplicitTop = 46
+    ExplicitLeft = 136
+    ExplicitTop = 128
+    ExplicitWidth = 300
+    ExplicitHeight = 250
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahLeft
       AlignVert = avTop
