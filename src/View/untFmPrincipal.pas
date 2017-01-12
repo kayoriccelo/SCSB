@@ -9,15 +9,6 @@ uses
 
 type
   TFmMain = class(TForm)
-    mmMain: TMainMenu;
-    Cadastros1: TMenuItem;
-    Movimentaes1: TMenuItem;
-    Empresa1: TMenuItem;
-    anque1: TMenuItem;
-    Bomba1: TMenuItem;
-    Abastecimento1: TMenuItem;
-    Relatrios1: TMenuItem;
-    Abastecimento2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private

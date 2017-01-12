@@ -21,21 +21,23 @@ type
   private
     FDAO: TDAO;
   public
-    function Qry(AEntidade: String; AId: Integer): TFDQuery;
+    function Insert(AObject: TObject); virtual; abstract;
+    function Update(AObject: TObject); virtual; abstract;
+    function List(AProperty: String = ''; AValue: String = ''): TList<TObject>; virtual; abstract;
+    function Delete(AObject: TObject); virtual; abstract;
 
-    constructor Create;
-    destructor Destroy;
+    constructor Create; virtual;
+    destructor Destroy; virtual;
   end;
 
   TBRCliente = class(TBR)
   private
 
   public
-    { Kayo Riccelo - Crud - Comandos de manipulação do banco de dados }
-    procedure Insert(ACliente: TCliente);
-    procedure Update(ACliente: TCliente);
+    function Insert(ACliente: TCliente): Boolean;
+    function Update(ACliente: TCliente): Boolean;
     function List(AProperty: String = ''; AValue: String = ''): TList<TCliente>;
-    procedure Delete(ACliente: TCliente);
+    function Delete(ACliente: TCliente): Boolean;
 
   end;
 
@@ -79,7 +81,7 @@ begin
   TDAOCliente(FDAO).Insert(ACliente);
 end;
 
-function TBRCliente.List(AProperty: String; AValue: String): TList<TCliente>;
+function TBRCliente.List(AProperty: String; AValue: String): TList<TObject>;
 begin
   Result := TDAOCliente(FDAO).List(AProperty, AValue);
 end;

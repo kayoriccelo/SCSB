@@ -1,8 +1,8 @@
 object FmMain: TFmMain
   Left = 0
   Top = 0
-  Caption = 'SCA - Sistema de controle de abastecimento'
-  ClientHeight = 441
+  Caption = 'SCSB - Sistema de controle de sal'#227'o de beleza'
+  ClientHeight = 461
   ClientWidth = 688
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
@@ -11,39 +11,10 @@ object FmMain: TFmMain
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIForm
-  Menu = mmMain
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object mmMain: TMainMenu
-    Left = 56
-    Top = 24
-    object Cadastros1: TMenuItem
-      Caption = 'Cadastros'
-      object Empresa1: TMenuItem
-        Caption = 'Empresa'
-      end
-      object anque1: TMenuItem
-        Caption = 'Tanque'
-      end
-      object Bomba1: TMenuItem
-        Caption = 'Bomba'
-      end
-    end
-    object Movimentaes1: TMenuItem
-      Caption = 'Movimenta'#231#245'es'
-      object Abastecimento1: TMenuItem
-        Caption = 'Abastecimento'
-      end
-    end
-    object Relatrios1: TMenuItem
-      Caption = 'Relat'#243'rios'
-      object Abastecimento2: TMenuItem
-        Caption = 'Abastecimentos'
-      end
-    end
-  end
 end
