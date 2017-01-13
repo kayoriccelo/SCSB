@@ -17,7 +17,8 @@ uses
   untRegistration in '..\src\Model\Forms\untRegistration.pas',
   untSearch in '..\src\Model\Forms\untSearch.pas',
   untEnumerator in '..\src\Model\Utility\untEnumerator.pas',
-  untReports in '..\src\Model\Reports\untReports.pas';
+  untReports in '..\src\Model\Reports\untReports.pas',
+  untFmList.Clientes in '..\src\View\Listings\untFmList.Clientes.pas' {FmListClientes};
 
 {$R *.res}
 
@@ -28,5 +29,6 @@ begin
   Application.CreateForm(TFmList, FmList);
   Application.CreateForm(TFmReg, FmReg);
   Application.CreateForm(TDmConnection, DmConnection);
+  Application.CreateForm(TFmListClientes, FmListClientes);
   Application.Run;
 end.

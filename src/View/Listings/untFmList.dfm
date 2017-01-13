@@ -169,6 +169,7 @@ object FmList: TFmList
       FindPanel.ApplyInputDelay = 250
       FindPanel.DisplayMode = fpdmAlways
       FindPanel.InfoText = 'tecle Ctrl+F para pesquisar...'
+      DataController.DataSource = dsList
       DataController.Filter.Active = True
       DataController.Filter.AutoDataSetFilter = True
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -200,14 +201,16 @@ object FmList: TFmList
       GridView = dbGridTVTblView
     end
   end
-  object qryList: TFDQuery
-    Left = 464
-    Top = 112
-  end
   object dsList: TDataSource
     AutoEdit = False
-    DataSet = qryList
-    Left = 464
-    Top = 160
+    DataSet = cdsList
+    Left = 608
+    Top = 200
+  end
+  object cdsList: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 608
+    Top = 144
   end
 end

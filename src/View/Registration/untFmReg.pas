@@ -1,3 +1,12 @@
+(* ------------------------------------------------------------------
+  Propósito da Unit:
+  Programador / Data: Kayo Riccelo 11/01/2017
+  Analista Responsável:
+  Revisões:
+  Programador:
+  Data: Descrição da Revisão
+  Comentários adicionais:
+  ------------------------------------------------------------------ *)
 unit untFmReg;
 
 interface
@@ -8,22 +17,22 @@ uses
   untEnumerator, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxLabel, dxGDIPlusClasses, cxImage, dxLayoutLookAndFeels, cxClasses, dxLayoutContainer,
-  dxLayoutControl;
+  dxLayoutControl, Datasnap.DBClient;
 
 type
   TFmReg = class(TForm)
     pnlButtons: TPanel;
     btnPost: TBitBtn;
     btnCancel: TBitBtn;
-    qryReg: TFDQuery;
-    dsReg: TDataSource;
     imgTitle: TcxImage;
     lblTitleMain: TcxLabel;
     cxLabel1: TcxLabel;
     dxLayoutControl1Group_Root: TdxLayoutGroup;
     dxLayoutControl1: TdxLayoutControl;
-    dxLayoutLookAndFeelList1: TdxLayoutLookAndFeelList;
+    laylkaflRegistration: TdxLayoutLookAndFeelList;
     dxLayoutSkinLookAndFeel1: TdxLayoutSkinLookAndFeel;
+    dsReg: TDataSource;
+    cdsReg: TClientDataSet;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnPostClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -71,10 +80,10 @@ end;
 
 procedure TFmReg.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if qryReg.State in [dsInsert, dsEdit] then
-    qryReg.Cancel;
+  if cdsReg.State in [dsInsert, dsEdit] then
+    cdsReg.Cancel;
 
-  qryReg.Close;
+  cdsReg.Close;
 end;
 
 procedure TFmReg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -85,17 +94,17 @@ end;
 
 procedure TFmReg.FormShow(Sender: TObject);
 begin
-  qryReg.Open;
+  cdsReg.Open;
 
   case TypeCrud of
     tcdInsert:
-      qryReg.Insert;
+      cdsReg.Insert;
     tcdUpdate:
       begin
-        qryReg.Filtered := False;
-        qryReg.Filter := ' id = ' + index.ToString;
-        qryReg.Filtered := True;
-        qryReg.Edit;
+        cdsReg.Filtered := False;
+        cdsReg.Filter := ' id = ' + index.ToString;
+        cdsReg.Filtered := True;
+        cdsReg.Edit;
       end;
   end;
 

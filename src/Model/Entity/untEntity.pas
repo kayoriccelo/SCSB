@@ -1,6 +1,6 @@
 (* ------------------------------------------------------------------
   Propósito da Unit:
-  Programador / Data: Kayo Riccelo 12/03/2015
+  Programador / Data: Kayo Riccelo 10/01/2017
   Analista Responsável:
   Revisões:
   Programador:
@@ -12,22 +12,30 @@ unit untEntity;
 interface
 
 type
+
+{$REGION '    References Registration    '}
   TCliente = class;
   TContato = class;
   TEmpresa = class;
   TEndereco = class;
-  TLocalidade = class;
   TFornecedor = class;
   TFuncao = class;
   TFuncionario = class;
-  TMeioContato = class;
   TProduto = class;
   TServico = class;
   TUsuario = class;
+{$ENDREGION}
+
+{$REGION '    References Domain    '}
   TCidade = class;
   TEstado = class;
   TSexo = class;
   TTipoUsuario = class;
+  TLocalidade = class;
+  TMeioContato = class;
+{$ENDREGION}
+
+{$REGION '    References Movements    '}
   TAgendamento = class;
   TComanda = class;
   TComandaAux = class;
@@ -37,7 +45,9 @@ type
   TPagamento = class;
   TVenda = class;
   TVendaAux = class;
+{$ENDREGION}
 
+{$REGION '    Entity Registration    '}
   TCliente = class
   private
     FId: Integer;
@@ -66,33 +76,20 @@ type
 
   end;
 
-  TContato = class
-  private
-    FId: Integer;
-    FEhPrincipal: Boolean;
-    FValor: String;
-
-  public
-    property Id: Integer read FId write FId;
-    property EhPrincipal: Boolean read FEhPrincipal write FEhPrincipal;
-    property Valor: String read FValor write FValor;
-
-  end;
-
   TEmpresa = class
   private
     FId: Integer;
     FCnpj: String;
     FRazaoSocial: String;
     FNomeFantasia: String;
-    FFuncionario: TFuncionario;
+    FFkFuncionario: TFuncionario;
 
   public
     property Id: Integer read FId write FId;
     property Cnpj: String read FCnpj write FCnpj;
     property RazaoSocial: String read FRazaoSocial write FRazaoSocial;
     property NomeFantasia: String read FNomeFantasia write FNomeFantasia;
-    property Funcionario: TFuncionario read FFuncionario write FFuncionario;
+    property FkFuncionario: TFuncionario read FFkFuncionario write FFkFuncionario;
 
     constructor Create;
     destructor Destroy;
@@ -105,32 +102,14 @@ type
     FCep: String;
     FLogradouro: String;
     FNumero: String;
-    FLocalidade: TLocalidade;
+    FFkLocalidade: TLocalidade;
 
   public
     property Id: Integer read FId write FId;
     property Cep: String read FCep write FCep;
     property Logradouro: String read FLogradouro write FLogradouro;
     property Numero: String read FNumero write FNumero;
-    property Localidade: TLocalidade read FLocalidade write FLocalidade;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TLocalidade = class
-  private
-    FId: Integer;
-    FCodigo: String;
-    FDescricao: String;
-    FCidade: TCidade;
-
-  public
-    property Id: Integer read FId write FId;
-    property Codigo: String read FCodigo write FCodigo;
-    property Descricao: String read FDescricao write FDescricao;
-    property Cidade: TCidade read FCidade write FCidade;
+    property FkLocalidade: TLocalidade read FFkLocalidade write FFkLocalidade;
 
     constructor Create;
     destructor Destroy;
@@ -179,8 +158,8 @@ type
     FDataCadastro: TDateTime;
     FRg: String;
     FCpf: String;
-    FFuncao: TFuncao;
-    FSexo: TSexo;
+    FFkFuncao: TFuncao;
+    FFkSexo: TSexo;
 
   public
     property Id: Integer read FId write FId;
@@ -191,30 +170,8 @@ type
     property DataCadastro: TDateTime read FDataCadastro write FDataCadastro;
     property Rg: String read FRg write FRg;
     property Cpf: String read FCpf write FCpf;
-    property Funcao: TFuncao read FFuncao write FFuncao;
-    property Sexo: TSexo read FSexo write FSexo;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TMeioContato = class
-  private
-    FId: Integer;
-    FCliente: TCliente;
-    FFuncionario: TFuncionario;
-    FFornecedor: TFornecedor;
-    FEmpresa: TEmpresa;
-    FContato: TContato;
-
-  public
-    property Id: Integer read FId write FId;
-    property Cliente: TCliente read FCliente write FCliente;
-    property Funcionario: TFuncionario read FFuncionario write FFuncionario;
-    property Fornecedor: TFornecedor read FFornecedor write FFornecedor;
-    property Empresa: TEmpresa read FEmpresa write FEmpresa;
-    property Contato: TContato read FContato write FContato;
+    property FkFuncao: TFuncao read FFkFuncao write FFkFuncao;
+    property FkSexo: TSexo read FFkSexo write FFkSexo;
 
     constructor Create;
     destructor Destroy;
@@ -264,196 +221,71 @@ type
     FId: Integer;
     FUsuario: String;
     FSenha: String;
-    FTipoUsuario: TTipoUsuario;
-    FFuncionario: TFuncionario;
+    FFkTipoUsuario: TTipoUsuario;
+    FFkFuncionario: TFuncionario;
 
   public
     property Id: Integer read FId write FId;
     property Usuario: String read FUsuario write FUsuario;
     property Senha: String read FSenha write FSenha;
-    property TipoUsuario: TTipoUsuario read FTipoUsuario write FTipoUsuario;
-    property Funcionario: TFuncionario read FFuncionario write FFuncionario;
+    property FkTipoUsuario: TTipoUsuario read FFkTipoUsuario write FFkTipoUsuario;
+    property FkFuncionario: TFuncionario read FFkFuncionario write FFkFuncionario;
 
     constructor Create;
     destructor Destroy;
 
   end;
 
-  TAgendamento = class
+  TMeioContato = class
   private
     FId: Integer;
-    FData: TDateTime;
-    FStatus: String;
-    FCliente: TCliente;
+    FFkCliente: TCliente;
+    FFkFuncionario: TFuncionario;
+    FFkFornecedor: TFornecedor;
+    FFkEmpresa: TEmpresa;
+    FFkContato: TContato;
 
   public
     property Id: Integer read FId write FId;
-    property Data: TDateTime read FData write FData;
-    property Status: String read FStatus write FStatus;
-    property Cliente: TCliente read FCliente write FCliente;
+    property FkCliente: TCliente read FFkCliente write FFkCliente;
+    property FkFuncionario: TFuncionario read FFkFuncionario write FFkFuncionario;
+    property FkFornecedor: TFornecedor read FFkFornecedor write FFkFornecedor;
+    property FkEmpresa: TEmpresa read FFkEmpresa write FFkEmpresa;
+    property FkContato: TContato read FFkContato write FFkContato;
 
     constructor Create;
     destructor Destroy;
 
   end;
 
-  TComanda = class
+  TContato = class
   private
     FId: Integer;
-    FCliente: TCliente;
-    FFuncionario: TFuncionario;
+    FEhPrincipal: Boolean;
+    FValor: String;
 
   public
     property Id: Integer read FId write FId;
-    property Cliente: TCliente read FCliente write FCliente;
-    property Funcionario: TFuncionario read FFuncionario write FFuncionario;
-
-    constructor Create;
-    destructor Destroy;
+    property EhPrincipal: Boolean read FEhPrincipal write FEhPrincipal;
+    property Valor: String read FValor write FValor;
 
   end;
 
-  TComandaAux = class
-  private
-    FId: Integer;
-    FComanda: TComanda;
-    FServico: TServico;
-    FProduto: TProduto;
-    FQuantidade: Integer;
-    FValorUnitario: Double;
-    FSubValorTotal: Double;
+{$ENDREGION}
 
-  public
-    property Id: Integer read FId write FId;
-    property Comanda: TComanda read FComanda write FComanda;
-    property Servico: TServico read FServico write FServico;
-    property Produto: TProduto read FProduto write FProduto;
-    property Quantidade: Integer read FQuantidade write FQuantidade;
-    property ValorUnitario: Double read FValorUnitario write FValorUnitario;
-    property SubValorTotal: Double read FSubValorTotal write FSubValorTotal;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TCompra = class
-  private
-    FId: Integer;
-    FFornecedor: TFornecedor;
-    FDataVenda: TDateTime;
-    FStatus: String;
-    FValorTotal: Double;
-
-  public
-    property Id: Integer read FId write FId;
-    property IdFornecedor: TFornecedor read FFornecedor write FFornecedor;
-    property DataVenda: TDateTime read FDataVenda write FDataVenda;
-    property Status: String read FStatus write FStatus;
-    property ValorTotal: Double read FValorTotal write FValorTotal;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TCompraAux = class
-  private
-    FId: Integer;
-    FCompra: TCompra;
-    FProduto: TProduto;
-    FQuantidade: Integer;
-    FValorUnitario: Double;
-    FSubValorTotal: Double;
-
-  public
-    property Id: Integer read FId write FId;
-    property IdCompra: TCompra read FCompra write FCompra;
-    property IdProduto: TProduto read FProduto write FProduto;
-    property Quantidade: Integer read FQuantidade write FQuantidade;
-    property ValorUnitario: Double read FValorUnitario write FValorUnitario;
-    property SubValorTotal: Double read FSubValorTotal write FSubValorTotal;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TEstoque = class
-  private
-    FId: Integer;
-    FProduto: TProduto;
-    FQuantidade: Integer;
-
-  protected
-
-  public
-    property Id: Integer read FId write FId;
-    property Produto: TProduto read FProduto write FProduto;
-    property Quantidade: Integer read FQuantidade write FQuantidade;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TPagamento = class
+{$REGION '    Entity Domain    '}
+  TLocalidade = class
   private
     FId: Integer;
     FCodigo: String;
     FDescricao: String;
-    FValor: Double;
-    FDataPagamento: TDateTime;
-    FDataVencimento: TDateTime;
-    FQuantidade: Integer;
+    FFkCidade: TCidade;
 
   public
     property Id: Integer read FId write FId;
     property Codigo: String read FCodigo write FCodigo;
     property Descricao: String read FDescricao write FDescricao;
-    property Valor: Double read FValor write FValor;
-    property DataPagamento: TDateTime read FDataPagamento write FDataPagamento;
-    property DataVencimento: TDateTime read FDataVencimento write FDataVencimento;
-    property Quantidade: Integer read FQuantidade write FQuantidade;
-
-  end;
-
-  TVenda = class
-  private
-    FId: Integer;
-    FCliente: TCliente;
-    FDataVenda: TDateTime;
-    FStatus: String;
-    FValorTotal: Double;
-
-  public
-    property Id: Integer read FId write FId;
-    property Cliente: TCliente read FCliente write FCliente;
-    property DataVenda: TDateTime read FDataVenda write FDataVenda;
-    property Status: String read FStatus write FStatus;
-    property ValorTotal: Double read FValorTotal write FValorTotal;
-
-    constructor Create;
-    destructor Destroy;
-
-  end;
-
-  TVendaAux = class
-  private
-    FId: Integer;
-    FVenda: TVenda;
-    FProduto: TProduto;
-    FQuantidade: Integer;
-    FValorUnitario: Double;
-    FSubValorTotal: Double;
-
-  public
-    property Id: Integer read FId write FId;
-    property Venda: TVenda read FVenda write FVenda;
-    property Produto: TProduto read FProduto write FProduto;
-    property Quantidade: Integer read FQuantidade write FQuantidade;
-    property ValorUnitario: Double read FValorUnitario write FValorUnitario;
-    property SubValorTotal: Double read FSubValorTotal write FSubValorTotal;
+    property FkCidade: TCidade read FFkCidade write FFkCidade;
 
     constructor Create;
     destructor Destroy;
@@ -465,13 +297,13 @@ type
     FId: Integer;
     FCodigo: String;
     FDescricao: String;
-    FEstado: TEstado;
+    FFkEstado: TEstado;
 
   public
     property Id: Integer read FId write FId;
     property Codigo: String read FCodigo write FCodigo;
     property Descricao: String read FDescricao write FDescricao;
-    property Estado: TEstado read FEstado write FEstado;
+    property FkEstado: TEstado read FFkEstado write FFkEstado;
 
     constructor Create;
     destructor Destroy;
@@ -516,6 +348,191 @@ type
     property Descricao: String read FDescricao write FDescricao;
 
   end;
+{$ENDREGION}
+
+{$REGION '    Entity Movements    '}
+  TAgendamento = class
+  private
+    FId: Integer;
+    FData: TDateTime;
+    FStatus: String;
+    FFkCliente: TCliente;
+
+  public
+    property Id: Integer read FId write FId;
+    property Data: TDateTime read FData write FData;
+    property Status: String read FStatus write FStatus;
+    property FkCliente: TCliente read FFkCliente write FFkCliente;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TComanda = class
+  private
+    FId: Integer;
+    FFkCliente: TCliente;
+    FFkFuncionario: TFuncionario;
+
+  public
+    property Id: Integer read FId write FId;
+    property FkCliente: TCliente read FFkCliente write FFkCliente;
+    property FkFuncionario: TFuncionario read FFkFuncionario write FFkFuncionario;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TComandaAux = class
+  private
+    FId: Integer;
+    FFkComanda: TComanda;
+    FFkServico: TServico;
+    FFkProduto: TProduto;
+    FQuantidade: Integer;
+    FValorUnitario: Double;
+    FSubValorTotal: Double;
+
+  public
+    property Id: Integer read FId write FId;
+    property FkComanda: TComanda read FFkComanda write FFkComanda;
+    property FkServico: TServico read FFkServico write FFkServico;
+    property FkProduto: TProduto read FFkProduto write FFkProduto;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+    property ValorUnitario: Double read FValorUnitario write FValorUnitario;
+    property SubValorTotal: Double read FSubValorTotal write FSubValorTotal;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TCompra = class
+  private
+    FId: Integer;
+    FFkFornecedor: TFornecedor;
+    FDataVenda: TDateTime;
+    FStatus: String;
+    FValorTotal: Double;
+
+  public
+    property Id: Integer read FId write FId;
+    property FkFornecedor: TFornecedor read FFkFornecedor write FFkFornecedor;
+    property DataVenda: TDateTime read FDataVenda write FDataVenda;
+    property Status: String read FStatus write FStatus;
+    property ValorTotal: Double read FValorTotal write FValorTotal;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TCompraAux = class
+  private
+    FId: Integer;
+    FFkCompra: TCompra;
+    FFkProduto: TProduto;
+    FQuantidade: Integer;
+    FValorUnitario: Double;
+    FSubValorTotal: Double;
+
+  public
+    property Id: Integer read FId write FId;
+    property FkCompra: TCompra read FFkCompra write FFkCompra;
+    property FkProduto: TProduto read FFkProduto write FFkProduto;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+    property ValorUnitario: Double read FValorUnitario write FValorUnitario;
+    property SubValorTotal: Double read FSubValorTotal write FSubValorTotal;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TEstoque = class
+  private
+    FId: Integer;
+    FFkProduto: TProduto;
+    FQuantidade: Integer;
+
+  protected
+
+  public
+    property Id: Integer read FId write FId;
+    property FkProduto: TProduto read FFkProduto write FFkProduto;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TPagamento = class
+  private
+    FId: Integer;
+    FCodigo: String;
+    FDescricao: String;
+    FValor: Double;
+    FDataPagamento: TDateTime;
+    FDataVencimento: TDateTime;
+    FQuantidade: Integer;
+
+  public
+    property Id: Integer read FId write FId;
+    property Codigo: String read FCodigo write FCodigo;
+    property Descricao: String read FDescricao write FDescricao;
+    property Valor: Double read FValor write FValor;
+    property DataPagamento: TDateTime read FDataPagamento write FDataPagamento;
+    property DataVencimento: TDateTime read FDataVencimento write FDataVencimento;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+
+  end;
+
+  TVenda = class
+  private
+    FId: Integer;
+    FFkCliente: TCliente;
+    FDataVenda: TDateTime;
+    FStatus: String;
+    FValorTotal: Double;
+
+  public
+    property Id: Integer read FId write FId;
+    property FkCliente: TCliente read FFkCliente write FFkCliente;
+    property DataVenda: TDateTime read FDataVenda write FDataVenda;
+    property Status: String read FStatus write FStatus;
+    property ValorTotal: Double read FValorTotal write FValorTotal;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+
+  TVendaAux = class
+  private
+    FId: Integer;
+    FFkVenda: TVenda;
+    FFkProduto: TProduto;
+    FQuantidade: Integer;
+    FValorUnitario: Double;
+    FSubValorTotal: Double;
+
+  public
+    property Id: Integer read FId write FId;
+    property FkVenda: TVenda read FFkVenda write FFkVenda;
+    property FkProduto: TProduto read FFkProduto write FFkProduto;
+    property Quantidade: Integer read FQuantidade write FQuantidade;
+    property ValorUnitario: Double read FValorUnitario write FValorUnitario;
+    property SubValorTotal: Double read FSubValorTotal write FSubValorTotal;
+
+    constructor Create;
+    destructor Destroy;
+
+  end;
+{$ENDREGION}
+
 
 implementation
 
@@ -526,34 +543,34 @@ uses
 
 constructor TUsuario.Create;
 begin
-  FTipoUsuario := TTipoUsuario.Create;
-  FFuncionario := TFuncionario.Create;
+  FFkTipoUsuario := TTipoUsuario.Create;
+  FFkFuncionario := TFuncionario.Create;
 end;
 
 destructor TUsuario.Destroy;
 begin
-  FreeAndNil(FTipoUsuario);
-  FreeAndNil(FFuncionario);
+  FreeAndNil(FFkTipoUsuario);
+  FreeAndNil(FFkFuncionario);
 end;
 
 { TContato }
 
 constructor TMeioContato.Create;
 begin
-  FCliente := TCliente.Create;
-  FFuncionario := TFuncionario.Create;
-  FFornecedor := TFornecedor.Create;
-  FEmpresa := FEmpresa.Create;
-  FContato := TContato.Create;
+  FFkCliente := TCliente.Create;
+  FFkFuncionario := TFuncionario.Create;
+  FFkFornecedor := TFornecedor.Create;
+  FFkEmpresa := FFkEmpresa.Create;
+  FFkContato := TContato.Create;
 end;
 
 destructor TMeioContato.Destroy;
 begin
-  FreeAndNil(FCliente);
-  FreeAndNil(FFuncionario);
-  FreeAndNil(FFornecedor);
-  FreeAndNil(FEmpresa);
-  FreeAndNil(FContato);
+  FreeAndNil(FFkCliente);
+  FreeAndNil(FFkFuncionario);
+  FreeAndNil(FFkFornecedor);
+  FreeAndNil(FFkEmpresa);
+  FreeAndNil(FFkContato);
 end;
 
 { TCliente }
@@ -572,168 +589,168 @@ end;
 
 constructor TEmpresa.Create;
 begin
-  FFuncionario := TFuncionario.Create;
+  FFkFuncionario := TFuncionario.Create;
 end;
 
 destructor TEmpresa.Destroy;
 begin
-  FreeAndNil(FFuncionario);
+  FreeAndNil(FFkFuncionario);
 end;
 
 { TFuncionario }
 
 constructor TFuncionario.Create;
 begin
-  FFuncao := TFuncao.Create;
-  FSexo := TSexo.Create;
+  FFkFuncao := TFuncao.Create;
+  FFkSexo := TSexo.Create;
 end;
 
 destructor TFuncionario.Destroy;
 begin
-  FreeAndNil(FFuncao);
-  FreeAndNil(FSexo);
+  FreeAndNil(FFkFuncao);
+  FreeAndNil(FFkSexo);
 end;
 
 { TEndereco }
 
 constructor TEndereco.Create;
 begin
-  FLocalidade := TLocalidade.Create;
+  FFkLocalidade := TLocalidade.Create;
 end;
 
 destructor TEndereco.Destroy;
 begin
-  FreeAndNil(FLocalidade);
+  FreeAndNil(FFkLocalidade);
 end;
 
 { TLocalidade }
 
 constructor TLocalidade.Create;
 begin
-  FCidade := TCidade.Create;
+  FFkCidade := TCidade.Create;
 end;
 
 destructor TLocalidade.Destroy;
 begin
-  FreeAndNil(FCidade);
+  FreeAndNil(FFkCidade);
 end;
 
 { TCidade }
 
 constructor TCidade.Create;
 begin
-  FEstado := TEstado.Create;
+  FFkEstado := TEstado.Create;
 end;
 
 destructor TCidade.Destroy;
 begin
-  FreeAndNil(FEstado);
+  FreeAndNil(FFkEstado);
 end;
 
 { TAgendamento }
 
 constructor TAgendamento.Create;
 begin
-  FCliente := TCliente.Create;
+  FFkCliente := TCliente.Create;
 end;
 
 destructor TAgendamento.Destroy;
 begin
-  FreeAndNil(FCliente);
+  FreeAndNil(FFkCliente);
 end;
 
 { TComanda }
 
 constructor TComanda.Create;
 begin
-  FCliente := TCliente.Create;
-  FFuncionario := TFuncionario.Create;
+  FFkCliente := TCliente.Create;
+  FFkFuncionario := TFuncionario.Create;
 end;
 
 destructor TComanda.Destroy;
 begin
-  FreeAndNil(FCliente);
-  FreeAndNil(FFuncionario);
+  FreeAndNil(FFkCliente);
+  FreeAndNil(FFkFuncionario);
 end;
 
 { TComandaAux }
 
 constructor TComandaAux.Create;
 begin
-  FComanda := TComanda.Create;
-  FServico := TServico.Create;
-  FProduto := TProduto.Create;
+  FFkComanda := TComanda.Create;
+  FFkServico := TServico.Create;
+  FFkProduto := TProduto.Create;
 end;
 
 destructor TComandaAux.Destroy;
 begin
-  FreeAndNil(FComanda);
-  FreeAndNil(FServico);
-  FreeAndNil(FProduto);
+  FreeAndNil(FFkComanda);
+  FreeAndNil(FFkServico);
+  FreeAndNil(FFkProduto);
 end;
 
 { TCompra }
 
 constructor TCompra.Create;
 begin
-  FFornecedor := TFornecedor.Create;
+  FFkFornecedor := TFornecedor.Create;
 end;
 
 destructor TCompra.Destroy;
 begin
-  FreeAndNil(FFornecedor);
+  FreeAndNil(FFkFornecedor);
 end;
 
 { TCompraAux }
 
 constructor TCompraAux.Create;
 begin
-  FCompra := TCompra.Create;
-  FProduto := TProduto.Create;
+  FFkCompra := TCompra.Create;
+  FFkProduto := TProduto.Create;
 end;
 
 destructor TCompraAux.Destroy;
 begin
-  FreeAndNil(FCompra);
-  FreeAndNil(FProduto);
+  FreeAndNil(FFkCompra);
+  FreeAndNil(FFkProduto);
 end;
 
 { TEstoque }
 
 constructor TEstoque.Create;
 begin
-  FProduto := TProduto.Create;
+  FFkProduto := TProduto.Create;
 end;
 
 destructor TEstoque.Destroy;
 begin
-  FreeAndNil(FProduto);
+  FreeAndNil(FFkProduto);
 end;
 
 { TVenda }
 
 constructor TVenda.Create;
 begin
-  FCliente := TCliente.Create;
+  FFkCliente := TCliente.Create;
 end;
 
 destructor TVenda.Destroy;
 begin
-  FreeAndNil(FCliente);
+  FreeAndNil(FFkCliente);
 end;
 
 { TVendaAux }
 
 constructor TVendaAux.Create;
 begin
-  FVenda := TVenda.Create;
-  FProduto := TProduto.Create;
+  FFkVenda := TVenda.Create;
+  FFkProduto := TProduto.Create;
 end;
 
 destructor TVendaAux.Destroy;
 begin
-  FreeAndNil(FVenda);
-  FreeAndNil(FProduto);
+  FreeAndNil(FFkVenda);
+  FreeAndNil(FFkProduto);
 end;
 
 end.

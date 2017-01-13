@@ -1,3 +1,12 @@
+(* ------------------------------------------------------------------
+  Propósito da Unit:
+  Programador / Data: Kayo Riccelo 11/01/2017
+  Analista Responsável:
+  Revisões:
+  Programador:
+  Data: Descrição da Revisão
+  Comentários adicionais:
+  ------------------------------------------------------------------ *)
 unit untFmList;
 
 interface
@@ -10,12 +19,11 @@ uses
   FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.Menus, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxLabel, dxGDIPlusClasses, cxImage, cxButtons;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxLabel, dxGDIPlusClasses, cxImage, cxButtons, Datasnap.DBClient;
 
 type
   TFmList = class(TForm)
     pnlButtons: TPanel;
-    qryList: TFDQuery;
     dsList: TDataSource;
     btnClose: TcxButton;
     btnInsert: TcxButton;
@@ -26,6 +34,7 @@ type
     dbGrid: TcxGrid;
     dbGridTVTblView: TcxGridDBTableView;
     dbGridLvlGridLevel: TcxGridLevel;
+    cdsList: TClientDataSet;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -50,7 +59,7 @@ end;
 
 procedure TFmList.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  qryList.Close();
+  cdsList.Close();
   Action := caFree;
 end;
 
@@ -62,7 +71,7 @@ end;
 
 procedure TFmList.FormShow(Sender: TObject);
 begin
-  qryList.Open();
+  cdsList.Open();
   WindowState := wsMaximized;
 end;
 

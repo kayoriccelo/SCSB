@@ -28,8 +28,6 @@ object FmReg: TFmReg
     Height = 35
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 320
-    ExplicitWidth = 532
     object btnPost: TBitBtn
       AlignWithMargins = True
       Left = 483
@@ -40,7 +38,6 @@ object FmReg: TFmReg
       Caption = 'Salvar'
       TabOrder = 0
       OnClick = btnPostClick
-      ExplicitLeft = 372
     end
     object btnCancel: TBitBtn
       AlignWithMargins = True
@@ -52,7 +49,6 @@ object FmReg: TFmReg
       Caption = 'Cancelar'
       TabOrder = 1
       OnClick = btnCancelClick
-      ExplicitLeft = 453
     end
   end
   object imgTitle: TcxImage
@@ -122,8 +118,6 @@ object FmReg: TFmReg
     Align = alClient
     TabOrder = 4
     LayoutLookAndFeel = dxLayoutSkinLookAndFeel1
-    ExplicitLeft = -24
-    ExplicitTop = 46
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahLeft
       AlignVert = avTop
@@ -133,22 +127,24 @@ object FmReg: TFmReg
       Index = -1
     end
   end
-  object qryReg: TFDQuery
-    Left = 472
-    Top = 192
-  end
-  object dsReg: TDataSource
-    AutoEdit = False
-    DataSet = qryReg
-    Left = 472
-    Top = 248
-  end
-  object dxLayoutLookAndFeelList1: TdxLayoutLookAndFeelList
-    Left = 120
-    Top = 104
+  object laylkaflRegistration: TdxLayoutLookAndFeelList
+    Left = 592
+    Top = 56
     object dxLayoutSkinLookAndFeel1: TdxLayoutSkinLookAndFeel
       LookAndFeel.NativeStyle = False
       LookAndFeel.SkinName = 'Metropolis'
     end
+  end
+  object dsReg: TDataSource
+    AutoEdit = False
+    DataSet = cdsReg
+    Left = 592
+    Top = 168
+  end
+  object cdsReg: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 592
+    Top = 113
   end
 end
