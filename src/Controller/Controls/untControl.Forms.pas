@@ -36,7 +36,7 @@ implementation
 
 uses
   Vcl.Forms, untFmList,
-  System.SysUtils, untBR;
+  System.SysUtils, untBR, untFmList.Clientes;
 
 { TControlForms }
 
@@ -46,7 +46,7 @@ begin
     lstUsuario:
       ;
     lstCliente:
-      ;
+      Result := 'FmListClientes';
     lstFuncionario:
       ;
     lstFornecedor:
@@ -66,7 +66,10 @@ begin
     lstUsuario:
       ;
     lstCliente:
-      ;
+      begin
+        Application.CreateForm(TFmListClientes, FmListClientes);
+        FmListClientes.Show;
+      end;
     lstFuncionario:
       ;
     lstFornecedor:
@@ -84,7 +87,7 @@ function TControlForms.RunList(AList: eList): boolean;
 var
   i: Integer;
 begin
-  result := True;
+  Result := True;
 
   try
     for i := 0 to pred(Screen.FormCount) do
@@ -98,7 +101,7 @@ begin
     InstanceList(AList);
   except
     { TODO -oKayoRiccelo -cExceção : implementar exceção }
-    result := False;
+    Result := False;
   end;
 end;
 
@@ -112,7 +115,7 @@ var
   loBR: TBR;
 
 begin
-  result := True;
+  Result := True;
 
   try
     case ATypeCrud of
@@ -167,7 +170,7 @@ begin
 
   except
     { TODO -oKayoRiccelo -cExceção : implementar exceção }
-    result := False;
+    Result := False;
   end;
 end;
 

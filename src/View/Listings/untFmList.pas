@@ -42,6 +42,7 @@ type
   private
 
   public
+    Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
 
   end;
 
@@ -73,6 +74,7 @@ procedure TFmList.FormShow(Sender: TObject);
 begin
   cdsList.Open();
   WindowState := wsMaximized;
+  Load;
 end;
 
 end.

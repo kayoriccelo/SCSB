@@ -25,10 +25,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TFmMain, FmMain);
-  Application.CreateForm(TFmList, FmList);
-  Application.CreateForm(TFmReg, FmReg);
   Application.CreateForm(TDmConnection, DmConnection);
-  Application.CreateForm(TFmListClientes, FmListClientes);
+  Application.CreateForm(TFmMain, FmMain);
   Application.Run;
 end.

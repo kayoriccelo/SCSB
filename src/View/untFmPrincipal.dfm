@@ -17,4 +17,13 @@ object FmMain: TFmMain
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
+  object cxButton1: TcxButton
+    Left = 320
+    Top = 248
+    Width = 75
+    Height = 25
+    Caption = 'cxButton1'
+    TabOrder = 0
+    OnClick = cxButton1Click
+  end
 end

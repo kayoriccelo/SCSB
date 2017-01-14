@@ -12,10 +12,11 @@ type
   private
     FBR: TBR;
   protected
-    procedure btnInsertClick(Sender: TObject); virtual; abstract;
+    procedure btnInsertClick(Sender: TObject); virtual; abstract; // KayoRiccelo - Abstract methods
     procedure btnUpdateClick(Sender: TObject); virtual; abstract;
     procedure btnDeleteClick(Sender: TObject); virtual; abstract;
 
+    function ButtonsConfiguration: Boolean;
   public
     function Load: Boolean; virtual; abstract;
 
@@ -24,11 +25,11 @@ type
 
   end;
 
-  TListClientes = class(TList)
+  TListClientes = class(TList) // KayoRiccelo - Inheritance classes
   private
 
   protected
-    procedure btnInsertClick(Sender: TObject); override;
+    procedure btnInsertClick(Sender: TObject); override; // KayoRiccelo - Overwritten methods
     procedure btnUpdateClick(Sender: TObject); override;
     procedure btnDeleteClick(Sender: TObject); override;
 
@@ -48,7 +49,7 @@ uses
 
 procedure TListClientes.btnDeleteClick(Sender: TObject);
 begin
-
+  ControlForms.RunReg(regCliente, tcdDelete, FmListClientes.cdsListId.Value);
 end;
 
 procedure TListClientes.btnInsertClick(Sender: TObject);
@@ -58,7 +59,7 @@ end;
 
 procedure TListClientes.btnUpdateClick(Sender: TObject);
 begin
-  // ControlForms.RunReg(regCliente, tcdUpdate, FmListClientes.dbGrid);
+  ControlForms.RunReg(regCliente, tcdUpdate, FmListClientes.cdsListId.Value);
 end;
 
 constructor TListClientes.Create;
@@ -75,8 +76,6 @@ begin
     Result := True;
 
     FmListClientes.cdsList.EmptyDataSet;
-
-    FmListClientes.cdsList.Open;
 
     for loObject in FBR.List('', '') do
       with TCliente(loObject) do
@@ -98,6 +97,14 @@ begin
 end;
 
 { TList }
+
+function TList.ButtonsConfiguration: Boolean;
+begin
+  FmListClientes.btnInsert.OnClick := btnInsertClick;
+  FmListClientes.btnUpdate.OnClick := btnUpdateClick;
+  FmListClientes.btnDelete.OnClick := btnDeleteClick;
+  FmListClientes.Load := Load;
+end;
 
 destructor TList.Destroy;
 begin
