@@ -36,7 +36,7 @@ implementation
 
 uses
   Vcl.Forms, untFmList,
-  System.SysUtils, untBR, untFmList.Clientes;
+  System.SysUtils, untBR, untFmList.Clientes, untFmRegCliente;
 
 { TControlForms }
 
@@ -128,7 +128,16 @@ begin
             regUsuario:
               ;
             regCliente:
-              ;
+              begin
+                try
+                  Application.CreateForm(TFmRegCliente, FmRegCliente);
+                  FmRegCliente.TypeCrud := ATypeCrud;
+                  FmRegCliente.Id := AIndex;
+                  FmRegCliente.ShowModal;
+                finally
+                  FreeAndNil(FmRegCliente);
+                end;
+              end;
             regFuncionario:
               ;
             regFornecedor:
@@ -152,7 +161,14 @@ begin
             regUsuario:
               ;
             regCliente:
-              ;
+              begin
+                try
+                  loBR := TBRCliente.Create;
+                  loBR.Delete(loBR.Select(AIndex));
+                finally
+                  FreeAndNil(loBR);
+                end;
+              end;
             regFuncionario:
               ;
             regFornecedor:

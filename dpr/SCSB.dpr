@@ -18,14 +18,22 @@ uses
   untSearch in '..\src\Model\Forms\untSearch.pas',
   untEnumerator in '..\src\Model\Utility\untEnumerator.pas',
   untReports in '..\src\Model\Reports\untReports.pas',
-  untFmList.Clientes in '..\src\View\Listings\untFmList.Clientes.pas' {FmListClientes};
+  untFmList.Clientes in '..\src\View\Listings\untFmList.Clientes.pas' {FmListClientes},
+  untDAO.View in '..\src\Model\DAO\untDAO.View.pas',
+  untEntity.View in '..\src\Model\Entity\untEntity.View.pas',
+  untBR.View in '..\src\Controller\BR\untBR.View.pas',
+  Vcl.Themes,
+  Vcl.Styles,
+  untFmRegCliente in '..\src\View\Registration\untFmRegCliente.pas' {FmRegCliente};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  TStyleManager.TrySetStyle('Turquoise Gray');
   Application.CreateForm(TDmConnection, DmConnection);
   Application.CreateForm(TFmMain, FmMain);
+  Application.CreateForm(TFmRegCliente, FmRegCliente);
   Application.Run;
 end.

@@ -18,9 +18,6 @@ object FmList: TFmList
   Position = poMainFormCenter
   Visible = True
   WindowState = wsMaximized
-  OnClose = FormClose
-  OnKeyDown = FormKeyDown
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object imgTitle: TcxImage

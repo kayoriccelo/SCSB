@@ -15,9 +15,6 @@ object FmReg: TFmReg
   KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnClose = FormClose
-  OnKeyDown = FormKeyDown
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object pnlButtons: TPanel
@@ -37,7 +34,6 @@ object FmReg: TFmReg
       Align = alRight
       Caption = 'Salvar'
       TabOrder = 0
-      OnClick = btnPostClick
     end
     object btnCancel: TBitBtn
       AlignWithMargins = True
@@ -48,7 +44,6 @@ object FmReg: TFmReg
       Align = alRight
       Caption = 'Cancelar'
       TabOrder = 1
-      OnClick = btnCancelClick
     end
   end
   object imgTitle: TcxImage

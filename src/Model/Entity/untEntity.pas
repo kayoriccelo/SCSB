@@ -25,7 +25,6 @@ type
   TServico = class;
   TUsuario = class;
 {$ENDREGION}
-
 {$REGION '    References Domain    '}
   TCidade = class;
   TEstado = class;
@@ -34,7 +33,6 @@ type
   TLocalidade = class;
   TMeioContato = class;
 {$ENDREGION}
-
 {$REGION '    References Movements    '}
   TAgendamento = class;
   TComanda = class;
@@ -46,8 +44,8 @@ type
   TVenda = class;
   TVendaAux = class;
 {$ENDREGION}
-
 {$REGION '    Entity Registration    '}
+
   TCliente = class
   private
     FId: Integer;
@@ -160,6 +158,7 @@ type
     FCpf: String;
     FFkFuncao: TFuncao;
     FFkSexo: TSexo;
+    FFkEmpresa: TEmpresa;
 
   public
     property Id: Integer read FId write FId;
@@ -172,6 +171,7 @@ type
     property Cpf: String read FCpf write FCpf;
     property FkFuncao: TFuncao read FFkFuncao write FFkFuncao;
     property FkSexo: TSexo read FFkSexo write FFkSexo;
+    property FkEmpresa: TEmpresa read FFkEmpresa write FFkEmpresa;
 
     constructor Create;
     destructor Destroy;
@@ -272,8 +272,8 @@ type
   end;
 
 {$ENDREGION}
-
 {$REGION '    Entity Domain    '}
+
   TLocalidade = class
   private
     FId: Integer;
@@ -349,8 +349,8 @@ type
 
   end;
 {$ENDREGION}
-
 {$REGION '    Entity Movements    '}
+
   TAgendamento = class
   private
     FId: Integer;
@@ -532,7 +532,6 @@ type
 
   end;
 {$ENDREGION}
-
 
 implementation
 

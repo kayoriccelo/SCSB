@@ -14,10 +14,18 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
-  untEnumerator, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  untEnumerator, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, cxContainer, cxEdit, cxLabel, dxGDIPlusClasses, cxImage, dxLayoutLookAndFeels, cxClasses, dxLayoutContainer,
-  dxLayoutControl, Datasnap.DBClient;
+  dxLayoutControl, Datasnap.DBClient, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue, dxSkinscxPCPainter,
+  untRegistration;
 
 type
   TFmReg = class(TForm)
@@ -33,23 +41,20 @@ type
     dxLayoutSkinLookAndFeel1: TdxLayoutSkinLookAndFeel;
     dsReg: TDataSource;
     cdsReg: TClientDataSet;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure btnPostClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FTypeCrud: eTypeCrud;
     FIndex: Integer;
+    FReg: TReg;
 
   protected
-    function GetObject: TObject; virtual; abstract;
-    function Post: Boolean; virtual; abstract;
-    function Cancel: Boolean; virtual;
 
   public
+    Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
+
     property TypeCrud: eTypeCrud read FTypeCrud write FTypeCrud;
-    property Index: Integer read FIndex write FIndex;
+    property Id: Integer read FIndex write FIndex;
+    property Reg: TReg read FReg write FReg;
+
   end;
 
 var
@@ -61,53 +66,5 @@ uses
   untFmList;
 
 {$R *.dfm}
-
-procedure TFmReg.btnCancelClick(Sender: TObject);
-begin
-  Cancel;
-end;
-
-procedure TFmReg.btnPostClick(Sender: TObject);
-begin
-  Post;
-  Close;
-end;
-
-function TFmReg.Cancel: Boolean;
-begin
-  Close;
-end;
-
-procedure TFmReg.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  if cdsReg.State in [dsInsert, dsEdit] then
-    cdsReg.Cancel;
-
-  cdsReg.Close;
-end;
-
-procedure TFmReg.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = VK_ESCAPE then
-    Close;
-end;
-
-procedure TFmReg.FormShow(Sender: TObject);
-begin
-  cdsReg.Open;
-
-  case TypeCrud of
-    tcdInsert:
-      cdsReg.Insert;
-    tcdUpdate:
-      begin
-        cdsReg.Filtered := False;
-        cdsReg.Filter := ' id = ' + index.ToString;
-        cdsReg.Filtered := True;
-        cdsReg.Edit;
-      end;
-  end;
-
-end;
 
 end.

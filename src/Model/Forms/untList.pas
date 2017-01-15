@@ -3,20 +3,24 @@ unit untList;
 interface
 
 uses
-  untFmList, untEnumerator, System.Generics.Collections, Datasnap.DBClient,
-  untBR;
+  untEnumerator, System.Generics.Collections, Datasnap.DBClient,
+  untBR, Vcl.Forms, System.Classes;
 
 type
 
-  TList = class
+  TLists = class
   private
     FBR: TBR;
   protected
     procedure btnInsertClick(Sender: TObject); virtual; abstract; // KayoRiccelo - Abstract methods
     procedure btnUpdateClick(Sender: TObject); virtual; abstract;
     procedure btnDeleteClick(Sender: TObject); virtual; abstract;
+    procedure btnCloseClick(Sender: TObject); virtual; abstract;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction); virtual; abstract;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); virtual; abstract;
+    procedure FormShow(Sender: TObject); virtual; abstract;
 
-    function ButtonsConfiguration: Boolean;
+    function Configuration: Boolean; virtual; abstract;
   public
     function Load: Boolean; virtual; abstract;
 
@@ -25,13 +29,19 @@ type
 
   end;
 
-  TListClientes = class(TList) // KayoRiccelo - Inheritance classes
+  TListCliente = class(TLists) // KayoRiccelo - Inheritance classes
   private
 
   protected
     procedure btnInsertClick(Sender: TObject); override; // KayoRiccelo - Overwritten methods
     procedure btnUpdateClick(Sender: TObject); override;
     procedure btnDeleteClick(Sender: TObject); override;
+    procedure btnCloseClick(Sender: TObject); override;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); override;
+    procedure FormShow(Sender: TObject); override;
+    
+    function Configuration: Boolean; override;
 
   public
     function Load: Boolean; override;
@@ -43,31 +53,45 @@ type
 implementation
 
 uses
-  untFmList.Clientes, System.SysUtils, untControl.Forms, untEntity;
+  untFmList.Clientes, System.SysUtils, untControl.Forms, untEntity,
+  untEntity.View, untFmList, Winapi.Windows;
 
-{ TListClientes }
+{ TListCliente }
 
-procedure TListClientes.btnDeleteClick(Sender: TObject);
+procedure TListCliente.btnDeleteClick(Sender: TObject);
 begin
   ControlForms.RunReg(regCliente, tcdDelete, FmListClientes.cdsListId.Value);
 end;
 
-procedure TListClientes.btnInsertClick(Sender: TObject);
+procedure TListCliente.btnInsertClick(Sender: TObject);
 begin
   ControlForms.RunReg(regCliente, tcdInsert, 0);
 end;
 
-procedure TListClientes.btnUpdateClick(Sender: TObject);
+procedure TListCliente.btnUpdateClick(Sender: TObject);
 begin
   ControlForms.RunReg(regCliente, tcdUpdate, FmListClientes.cdsListId.Value);
 end;
 
-constructor TListClientes.Create;
+function TListCliente.Configuration: Boolean;
 begin
-  FBR := TBRCliente.Create;
+  FmListClientes.btnInsert.OnClick := btnInsertClick;
+  FmListClientes.btnUpdate.OnClick := btnUpdateClick;
+  FmListClientes.btnDelete.OnClick := btnDeleteClick;
+  FmListClientes.btnClose.OnClick := btnCloseClick;
+  FmListClientes.OnClose := FormClose;
+  FmListClientes.OnKeyDown := FormKeyDown;
+  FmListClientes.OnShow := FormShow;
+  FmListClientes.Load := Load;
 end;
 
-function TListClientes.Load: Boolean;
+constructor TListCliente.Create;
+begin
+  FBR := TBRCliente.Create;
+  Configuration;
+end;
+
+function TListCliente.Load: Boolean;
 var
   loObject: TObject;
 begin
@@ -78,7 +102,7 @@ begin
     FmListClientes.cdsList.EmptyDataSet;
 
     for loObject in FBR.List('', '') do
-      with TCliente(loObject) do
+      with TViewCliente(loObject) do
       begin
         FmListClientes.cdsList.Insert;
 
@@ -86,7 +110,13 @@ begin
         FmListClientes.cdsListCodigo.Value := Codigo;
         FmListClientes.cdsListNome.Value := Nome;
         FmListClientes.cdsListDataNascimento.Value := DataNascimento;
+        FmListClientes.cdsListDataCadastro.Value := DataCadastro;
+        FmListClientes.cdsListRg.Value := Rg;
         FmListClientes.cdsListCpf.Value := Cpf;
+        FmListClientes.cdsListCodigoSexo.Value := CodigoSexo;
+        FmListClientes.cdsListDescricaoSexo.Value := DescricaoSexo;
+        FmListClientes.cdsListCodigoFunc.Value := CodigoFuncionario;
+        FmListClientes.cdsListNomeFunc.Value := NomeFuncionario;
 
         FmListClientes.cdsList.Post;
       end;
@@ -96,17 +126,33 @@ begin
   end;
 end;
 
-{ TList }
-
-function TList.ButtonsConfiguration: Boolean;
+procedure TListCliente.btnCloseClick(Sender: TObject);
 begin
-  FmListClientes.btnInsert.OnClick := btnInsertClick;
-  FmListClientes.btnUpdate.OnClick := btnUpdateClick;
-  FmListClientes.btnDelete.OnClick := btnDeleteClick;
-  FmListClientes.Load := Load;
+  FmListClientes.Close;
 end;
 
-destructor TList.Destroy;
+procedure TListCliente.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FmListClientes.cdsList.Close();
+  Action := caFree;
+end;
+
+procedure TListCliente.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    FmListClientes.Close;
+end;
+
+procedure TListCliente.FormShow(Sender: TObject);
+begin
+  FmListClientes.cdsList.Open();
+  FmListClientes.WindowState := wsMaximized;
+  Load;
+end;
+
+{ TList }
+
+destructor TLists.Destroy;
 begin
   FreeAndNil(FBR);
 end;

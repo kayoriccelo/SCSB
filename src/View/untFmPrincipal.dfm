@@ -18,8 +18,8 @@ object FmMain: TFmMain
   PixelsPerInch = 96
   TextHeight = 13
   object cxButton1: TcxButton
-    Left = 320
-    Top = 248
+    Left = 24
+    Top = 32
     Width = 75
     Height = 25
     Caption = 'cxButton1'

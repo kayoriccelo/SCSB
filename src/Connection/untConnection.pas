@@ -46,7 +46,7 @@ begin
         tcnFireBird:
           begin
             Connected := False;
-            Params.Database := 'localhost:C:\SCSB\bd\SCSB.FDB';
+            Params.Database := 'localhost:C:\Projetos\SCSB\bd\SCSB.FDB';
             Params.UserName := 'SYSDBA';
             Params.Password := 'masterkey';
             Connected := True;

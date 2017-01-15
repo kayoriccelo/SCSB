@@ -19,7 +19,14 @@ uses
   FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.Menus, cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, cxControls, cxContainer, cxEdit, cxStyles,
   cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxClasses, cxGridCustomView, cxGridCustomTableView,
-  cxGridTableView, cxGridDBTableView, cxGrid, cxLabel, dxGDIPlusClasses, cxImage, cxButtons, Datasnap.DBClient;
+  cxGridTableView, cxGridDBTableView, cxGrid, cxLabel, dxGDIPlusClasses, cxImage, cxButtons, Datasnap.DBClient,
+  untList, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLiquidSky,
+  dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black,
+  dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue, dxSkinscxPCPainter, dxSkinsForm;
 
 type
   TFmList = class(TForm)
@@ -35,14 +42,14 @@ type
     dbGridTVTblView: TcxGridDBTableView;
     dbGridLvlGridLevel: TcxGridLevel;
     cdsList: TClientDataSet;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnCloseClick(Sender: TObject);
   private
+
+  protected
+    FList: TLists;
 
   public
     Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
+    property List: TLists read FList write FList;
 
   end;
 
@@ -52,29 +59,5 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TFmList.btnCloseClick(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TFmList.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  cdsList.Close();
-  Action := caFree;
-end;
-
-procedure TFmList.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = VK_ESCAPE then
-    Close;
-end;
-
-procedure TFmList.FormShow(Sender: TObject);
-begin
-  cdsList.Open();
-  WindowState := wsMaximized;
-  Load;
-end;
 
 end.

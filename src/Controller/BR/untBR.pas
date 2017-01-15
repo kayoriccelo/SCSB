@@ -19,7 +19,10 @@ type
 
   TBR = class
   private
+
+  protected
     FDAO: TDAO;
+
   public
     function Insert(AObject: TObject): Boolean; virtual;
     function Update(AObject: TObject): Boolean; virtual;

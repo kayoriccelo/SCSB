@@ -19,6 +19,8 @@ type
 
   TDAO = class
   private
+
+  protected
     FQry: TFDQuery;
   public
     function Insert(AObject: TObject): Boolean; virtual; abstract;
@@ -83,7 +85,6 @@ type
   end;
 
 {$ENDREGION}
-
 {$REGION '    DAO Registration    '}
 
   TDAOCliente = class(TDAO)
@@ -186,7 +187,6 @@ type
   end;
 
 {$ENDREGION}
-
 {$REGION '    DAO Movements    '}
 
   TDAOAgendamento = class(TDAO)
@@ -403,9 +403,6 @@ begin
       else
         FQry.Open('select * from tb_cliente where ' + AProperty + ' = ' + AValue.ToString);
 
-      if FQry.RecordCount = 0 then
-        exit(nil);
-
       Result := TList<TObject>.Create;
 
       FQry.First;
@@ -499,6 +496,9 @@ begin
       FQry.ParamByName('data_nascimento').Value := DataNascimento;
       FQry.ParamByName('rg').Value := Rg;
       FQry.ParamByName('cpf').Value := Cpf;
+      FQry.ParamByName('id_sexo').Value := FkSexo.Id;
+      FQry.ParamByName('id_empresa').Value := FkEmpresa.Id;
+      FQry.ParamByName('id_funcao').Value := FkFuncao.Id;
       FQry.ExecSQL;
     end;
 
@@ -527,6 +527,9 @@ begin
       FQry.ParamByName('data_nascimento').Value := DataNascimento;
       FQry.ParamByName('rg').Value := Rg;
       FQry.ParamByName('cpf').Value := Cpf;
+      FQry.ParamByName('id_sexo').Value := FkSexo.Id;
+      FQry.ParamByName('id_empresa').Value := FkEmpresa.Id;
+      FQry.ParamByName('id_funcao').Value := FkFuncao.Id;
       FQry.ExecSQL;
     end;
   except
@@ -560,16 +563,20 @@ end;
 function TDAOFuncionario.List(AProperty: String; AValue: Variant): TList<TObject>;
 var
   loFuncionario: TFuncionario;
+  loDAOSexo: TDAOSexo;
+  loDAOEmpresa: TDAOEmpresa;
+  loDAOFuncao: TDAOFuncao;
 begin
   try
     try
+      loDAOSexo := TDAOSexo.Create;
+      loDAOEmpresa := TDAOEmpresa.Create;
+      loDAOFuncao := TDAOFuncao.Create;
+
       if AProperty = '' then
         FQry.Open('select * from tb_funcionario')
       else
         FQry.Open('select * from tb_funcionario where ' + AProperty + ' = ' + AValue.ToString);
-
-      if FQry.RecordCount = 0 then
-        exit(nil);
 
       Result := TList<TObject>.Create;
 
@@ -586,6 +593,9 @@ begin
           DataNascimento := FQry.FieldByName('data_nascimento').AsDateTime;
           Rg := FQry.FieldByName('rg').AsString;
           Cpf := FQry.FieldByName('cpf').AsString;
+          FkSexo := TSexo(loDAOSexo.Select(FQry.FieldByName('id_sexo').AsInteger));
+          FkEmpresa := TEmpresa(loDAOEmpresa.Select(FQry.FieldByName('id_empresa').AsInteger));
+          FkFuncao := TFuncao(loDAOFuncao.Select(FQry.FieldByName('id_funcao').AsInteger));
         end;
 
         Result.Add(loFuncionario);
@@ -599,37 +609,56 @@ begin
       end;
     end;
   finally
-
+    FreeAndNil(loDAOSexo);
+    FreeAndNil(loDAOEmpresa);
+    FreeAndNil(loDAOFuncao);
   end;
 end;
 
 function TDAOFuncionario.Select(AIndex: Integer): TObject;
+var
+  loDAOSexo: TDAOSexo;
+  loDAOEmpresa: TDAOEmpresa;
+  loDAOFuncao: TDAOFuncao;
 begin
   try
-    FQry.Open('select * from tb_funcionario where id = ' + AIndex.ToString);
+    try
+      loDAOSexo := TDAOSexo.Create;
+      loDAOEmpresa := TDAOEmpresa.Create;
+      loDAOFuncao := TDAOFuncao.Create;
 
-    if FQry.RecordCount = 0 then
-      exit(nil);
+      FQry.Open('select * from tb_funcionario where id = ' + AIndex.ToString);
 
-    Result := TFuncionario.Create;
+      if FQry.RecordCount = 0 then
+        exit(nil);
 
-    with TFuncionario(Result) do
-    begin
-      Id := FQry.FieldByName('id').Value;
-      Codigo := FQry.FieldByName('codigo').Value;
-      Nome := FQry.FieldByName('nome').Value;
-      DataAdmissao := FQry.FieldByName('data_admissao').Value;
-      DataNascimento := FQry.FieldByName('data_nascimento').Value;
-      DataCadastro := FQry.FieldByName('data_cadastro').Value;
-      Rg := FQry.FieldByName('rg').Value;
-      Cpf := FQry.FieldByName('cpf').Value;
+      Result := TFuncionario.Create;
+
+      with TFuncionario(Result) do
+      begin
+        Id := FQry.FieldByName('id').Value;
+        Codigo := FQry.FieldByName('codigo').Value;
+        Nome := FQry.FieldByName('nome').Value;
+        DataAdmissao := FQry.FieldByName('data_admissao').Value;
+        DataNascimento := FQry.FieldByName('data_nascimento').Value;
+        DataCadastro := FQry.FieldByName('data_cadastro').Value;
+        Rg := FQry.FieldByName('rg').Value;
+        Cpf := FQry.FieldByName('cpf').Value;
+        FkSexo := TSexo(loDAOSexo.Select(FQry.FieldByName('id_sexo').AsInteger));
+        FkEmpresa := TEmpresa(loDAOEmpresa.Select(FQry.FieldByName('id_empresa').AsInteger));
+        FkFuncao := TFuncao(loDAOFuncao.Select(FQry.FieldByName('id_funcao').AsInteger));
+      end;
+    except
+      on E: Exception do
+      begin
+        Result := Nil;
+        raise Exception.Create('Error ao selecionar funcionário.' + #13 + E.message);
+      end;
     end;
-  except
-    on E: Exception do
-    begin
-      Result := Nil;
-      raise Exception.Create('Error ao selecionar funcionário.' + #13 + E.message);
-    end;
+  finally
+    FreeAndNil(loDAOSexo);
+    FreeAndNil(loDAOEmpresa);
+    FreeAndNil(loDAOFuncao);
   end;
 end;
 
