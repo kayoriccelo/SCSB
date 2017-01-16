@@ -24,7 +24,8 @@ uses
   untBR.View in '..\src\Controller\BR\untBR.View.pas',
   Vcl.Themes,
   Vcl.Styles,
-  untFmRegCliente in '..\src\View\Registration\untFmRegCliente.pas' {FmRegCliente};
+  untFmRegCliente in '..\src\View\Registration\untFmRegCliente.pas' {FmRegCliente},
+  untDmRegistration in '..\src\Model\Forms\untDmRegistration.pas' {DmRegistration: TDataModule};
 
 {$R *.res}
 
@@ -35,5 +36,6 @@ begin
   Application.CreateForm(TDmConnection, DmConnection);
   Application.CreateForm(TFmMain, FmMain);
   Application.CreateForm(TFmRegCliente, FmRegCliente);
+  Application.CreateForm(TDmRegistration, DmRegistration);
   Application.Run;
 end.

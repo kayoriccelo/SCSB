@@ -51,7 +51,7 @@ type
     FReg: TReg;
 
   public
-    // Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
+    Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
 
     property TypeCrud: eTypeCrud read FTypeCrud write FTypeCrud;
     property Id: Integer read FIndex write FIndex;

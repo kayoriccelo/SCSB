@@ -442,8 +442,8 @@ end;
 function TDAOCliente.NextCod: Integer;
 begin
   try
-//    FQry.Open('select MAX(Id) as NextCod from tb_cliente');
-//    Result := FQry.FieldByName('NextCod').Value;
+    FQry.Open('select MAX(Id) as NextCod from tb_cliente');
+    Result := FQry.FieldByName('NextCod').Value;
   except
     Result := 1;
   end;

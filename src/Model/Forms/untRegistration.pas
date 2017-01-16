@@ -9,6 +9,8 @@ type
 
   TReg = class
   private
+
+  protected
     FBR: TBR;
 
   protected
@@ -48,7 +50,8 @@ type
 implementation
 
 uses
-  System.SysUtils, untFmRegCliente, Winapi.Windows, untEntity;
+  System.SysUtils, untFmRegCliente, Winapi.Windows, untEntity,
+  untDmRegistration;
 
 { TReg }
 
@@ -70,11 +73,19 @@ var
   loCliente: TCliente;
   loBRSexo: TBRSexo;
   loBRFunc: TBRFuncionario;
+  loBREndereco: TBREndereco;
+  loBRLocalidade: TBRLocalidade;
+  loBRMCont: TBRMeioContato;
+  loObject: TObject;
+
 begin
   try
     loCliente := TCliente.Create;
+
     loBRSexo := TBRSexo.Create;
     loBRFunc := TBRFuncionario.Create;
+    loBREndereco := TBREndereco.Create;
+    loBRMCont := TBRMeioContato.Create;
 
     loCliente.Codigo := FmRegCliente.cdsRegCodigo.Value;
     loCliente.Nome := FmRegCliente.cdsRegNome.Value;
@@ -87,10 +98,64 @@ begin
 
     case FmRegCliente.TypeCrud of
       tcdInsert:
-        BR.Insert(loCliente);
+        begin
+          if FmRegCliente.dsEnde.DataSet.RecordCount > 0 then
+          begin
+            loCliente.FkEndereco := TEndereco.Create;
+            loCliente.FkEndereco.Cep := FmRegCliente.dsEnde.DataSet.FieldByName('Cep').Value;
+            loCliente.FkEndereco.Logradouro := FmRegCliente.dsEnde.DataSet.FieldByName('Logradouro').Value;
+            loCliente.FkEndereco.Numero := FmRegCliente.dsEnde.DataSet.FieldByName('Numero').Value;
+            loCliente.FkEndereco.FkLocalidade :=
+              TLocalidade(loBRLocalidade.Select(FmRegCliente.dsEnde.DataSet.FieldByName('IdLocalidade').Value));
+          end;
+
+          BR.Insert(loCliente);
+        end;
       tcdUpdate:
         begin
           loCliente.Id := FmRegCliente.cdsRegId.Value;
+
+          if FmRegCliente.dsEnde.DataSet.RecordCount > 0 then
+          begin
+            loCliente.FkEndereco := TEndereco(loBREndereco.Select(FmRegCliente.dsEnde.DataSet.FieldByName('Id').Value));
+            loCliente.FkEndereco.Id := FmRegCliente.dsEnde.DataSet.FieldByName('Id').Value;
+            loCliente.FkEndereco.Cep := FmRegCliente.dsEnde.DataSet.FieldByName('Cep').Value;
+            loCliente.FkEndereco.Logradouro := FmRegCliente.dsEnde.DataSet.FieldByName('Logradouro').Value;
+            loCliente.FkEndereco.Numero := FmRegCliente.dsEnde.DataSet.FieldByName('Numero').Value;
+            loCliente.FkEndereco.FkLocalidade :=
+              TLocalidade(loBRLocalidade.Select(FmRegCliente.dsEnde.DataSet.FieldByName('IdLocalidade').Value));
+          end;
+
+          if FmRegCliente.dsMCont.DataSet.RecordCount > 0 then
+          begin
+            FmRegCliente.dsMCont.DataSet.First;
+
+            while not FmRegCliente.dsMCont.DataSet.eof do
+            begin
+              if Assigned(loBRMCont.Select(FmRegCliente.dsMCont.DataSet.FieldByName('Id').Value)) then
+                loBRMCont.Update(loBRMCont.Select(FmRegCliente.dsMCont.DataSet.FieldByName('Id').Value))
+              else
+              begin
+                try
+                  loObject := TMeioContato.Create;
+                  with TMeioContato(loObject) do
+                  begin
+                    FkCliente := loCliente;
+
+//                    FkContato := ;
+
+                  end;
+
+                  loBRMCont.Insert(loObject);
+                finally
+                  FreeAndNil(loObject);
+                end;
+              end;
+
+              FmRegCliente.dsMCont.DataSet.Next;
+            end;
+          end;
+
           BR.Update(loCliente);
         end;
     end;
@@ -99,8 +164,11 @@ begin
     FmRegCliente.cdsReg.Cancel;
 
     FreeAndNil(loCliente);
+
     FreeAndNil(loBRSexo);
     FreeAndNil(loBRFunc);
+    FreeAndNil(loBREndereco);
+    FreeAndNil(loBRMCont);
   end;
 end;
 
@@ -109,7 +177,7 @@ begin
   FmRegCliente.btnPost.OnClick := btnPostClick;
   FmRegCliente.btnCancel.OnClick := btnCancelClick;
   FmRegCliente.OnKeyDown := FormKeyDown;
-  FmRegCliente.OnShow := FormShow
+  FmRegCliente.OnShow := FormShow;
 end;
 
 constructor TRegCliente.Create;
@@ -134,27 +202,68 @@ function TRegCliente.Load: Boolean;
 var
   loBRSexo: TBRSexo;
   loBRFunc: TBRFuncionario;
+  loBRLocali: TBRLocalidade;
+  loBRMCont: TBRMeioContato;
   loObject: TObject;
+
 begin
   try
 
     loBRSexo := TBRSexo.Create;
     loBRFunc := TBRFuncionario.Create;
+    loBRLocali := TBRLocalidade.Create;
+    loBRMCont := TBRMeioContato.Create;
+
+    for loObject in loBRSexo.List('', '') do
+      with TSexo(loObject) do
+      begin
+        DmRegistration.cdsSexo.EmptyDataSet;
+        DmRegistration.cdsSexo.Append;
+        DmRegistration.cdsSexoId.Value := Id;
+        DmRegistration.cdsSexoDescricao.Value := Descricao;
+        DmRegistration.cdsSexo.Post;
+      end;
+
+    for loObject in loBRFunc.List('', '') do
+      with TFuncionario(loObject) do
+      begin
+        DmRegistration.cdsFunc.EmptyDataSet;
+        DmRegistration.cdsFunc.Append;
+        DmRegistration.cdsFuncId.Value := Id;
+        DmRegistration.cdsFuncNome.Value := Nome;
+        DmRegistration.cdsFunc.Post;
+      end;
+
+    { TODO -oKayoRiccelo -cAjustes : Talves usar uma view para trazer todos os dados de relacionamento da localidade }
+    for loObject in loBRLocali.List('', '') do
+      with TLocalidade(loObject) do
+      begin
+        DmRegistration.cdsLocali.EmptyDataSet;
+        DmRegistration.cdsLocali.Append;
+        DmRegistration.cdsLocaliId.Value := Id;
+        DmRegistration.cdsLocaliCodigo.Value := Codigo;
+        DmRegistration.cdsLocaliDescricao.Value := Descricao;
+        DmRegistration.cdsLocaliIdCidade.Value := FkCidade.Id;
+        DmRegistration.cdsLocali.Post;
+      end;
 
     case FmRegCliente.TypeCrud of
       tcdInsert:
         begin
-            FmRegCliente.cdsReg.EmptyDataSet;
-            FmRegCliente.cdsReg.insert;
-            FmRegCliente.cdsRegCodigo.Value := FormatFloat('0000', BR.NextCod);
-            FmRegCliente.cdsRegNome.Value := 'teste';
+          FmRegCliente.cdsReg.EmptyDataSet;
+          FmRegCliente.cdsReg.Append;
+          FmRegCliente.cdsRegCodigo.Value := BR.NextCod.ToString;
+
+          DmRegistration.cdsEnde.Append;
+
+          DmRegistration.cdsMCont.Append;
         end;
       tcdUpdate:
         begin
           with TCliente(BR.Select(FmRegCliente.Id)) do
           begin
             FmRegCliente.cdsReg.EmptyDataSet;
-            FmRegCliente.cdsReg.insert;
+            FmRegCliente.cdsReg.Append;
             FmRegCliente.cdsRegId.Value := Id;
             FmRegCliente.cdsRegCodigo.Value := Codigo;
             FmRegCliente.cdsRegNome.Value := Nome;
@@ -164,35 +273,30 @@ begin
             FmRegCliente.cdsRegCpf.Value := Cpf;
             FmRegCliente.cdsRegIdSexo.Value := FkSexo.Id;
             FmRegCliente.cdsRegIdFunc.Value := FkFuncionario.Id;
+
+            FmRegCliente.dsEnde.DataSet.Append;
+            FmRegCliente.dsEnde.DataSet.FieldByName('Id').Value := FkEndereco.Id;
+            FmRegCliente.dsEnde.DataSet.FieldByName('Cep').Value := FkEndereco.Cep;
+            FmRegCliente.dsEnde.DataSet.FieldByName('Logradouro').Value := FkEndereco.Logradouro;
+            FmRegCliente.dsEnde.DataSet.FieldByName('Numero').Value := FkEndereco.Numero;
+            FmRegCliente.dsEnde.DataSet.FieldByName('IdLocalidade').Value := FkEndereco.FkLocalidade.Id;
+
+            for loObject in loBRMCont.List('id_cliente', Id) do
+            begin
+              FmRegCliente.dsMCont.DataSet.Append;
+              FmRegCliente.dsMCont.DataSet.FieldByName('Id').Value := TMeioContato(loObject).Id;
+              FmRegCliente.dsMCont.DataSet.FieldByName('IdContato').Value := TMeioContato(loObject).FkContato.Id;
+              FmRegCliente.dsMCont.DataSet.FieldByName('IdCliente').Value := Id;
+              FmRegCliente.dsMCont.DataSet.Post;
+            end;
           end;
         end;
     end;
-
-    for loObject in loBRSexo.List('', '') do
-      with TSexo(loObject) do
-      begin
-        FmRegCliente.cdsSexo.EmptyDataSet;
-        FmRegCliente.cdsSexo.Insert;
-        FmRegCliente.cdsSexoId.Value := Id;
-        FmRegCliente.cdsSexoDescricao.Value := Descricao;
-        FmRegCliente.cdsSexo.Post;
-      end;
-
-    for loObject in loBRFunc.List('', '') do
-      with TFuncionario(loObject) do
-      begin
-        FmRegCliente.cdsFunc.EmptyDataSet;
-        FmRegCliente.cdsFunc.Insert;
-        FmRegCliente.cdsFuncId.Value := Id;
-        FmRegCliente.cdsFuncNome.Value := Nome;
-        FmRegCliente.cdsFunc.Post;
-      end;
-
-    FmRegCliente.cdsReg.Insert;
-
   finally
     FreeAndNil(loBRSexo);
     FreeAndNil(loBRFunc);
+    FreeAndNil(loBRLocali);
+    FreeAndNil(loBRMCont);
   end;
 end;
 

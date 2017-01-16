@@ -57,6 +57,7 @@ type
     FCpf: String;
     FFkSexo: TSexo;
     FFkFuncionario: TFuncionario;
+    FFkEndereco: TEndereco;
 
   public
     property Id: Integer read FId write FId;
@@ -68,6 +69,7 @@ type
     property Cpf: String read FCpf write FCpf;
     property FkSexo: TSexo read FFkSexo write FFkSexo;
     property FkFuncionario: TFuncionario read FFkFuncionario write FFkFuncionario;
+    property FkEndereco: TEndereco read FFkEndereco write FFkEndereco;
 
     constructor Create;
     destructor Destroy;

@@ -103,7 +103,7 @@ begin
     for loObject in FBR.List('', '') do
       with TViewCliente(loObject) do
       begin
-        FmListClientes.cdsList.Insert;
+        FmListClientes.cdsList.Append;
 
         FmListClientes.cdsListId.Value := id;
         FmListClientes.cdsListCodigo.Value := Codigo;

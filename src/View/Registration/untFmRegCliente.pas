@@ -14,7 +14,9 @@ uses
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue, dxSkinscxPCPainter, Data.DB,
   Datasnap.DBClient, dxLayoutLookAndFeels, cxClasses, dxLayoutContainer, dxLayoutControl, cxLabel, dxGDIPlusClasses, cxImage, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.ExtCtrls, dxLayoutcxEditAdapters, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxMaskEdit,
-  cxCalendar, cxDBEdit, cxTextEdit, cxDBLookupComboBox, dxLayoutControlAdapters, Vcl.Menus, cxButtons;
+  cxCalendar, cxDBEdit, cxTextEdit, cxDBLookupComboBox, dxLayoutControlAdapters, Vcl.Menus, cxButtons, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxNavigator, cxDBData, cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
+  cxGrid;
 
 type
   TFmRegCliente = class(TFmReg)
@@ -40,19 +42,10 @@ type
     dxLayoutControl1Group2: TdxLayoutAutoCreatedGroup;
     dbmskedtCPF: TcxDBMaskEdit;
     dxLayoutControl1Item3: TdxLayoutItem;
-    cdsFunc: TClientDataSet;
-    cdsSexo: TClientDataSet;
-    dsSexo: TDataSource;
-    dsFunc: TDataSource;
     dblkpcbbFuncionario: TcxDBLookupComboBox;
     dxLayoutControl1Item6: TdxLayoutItem;
     dblkpcbbSexo: TcxDBLookupComboBox;
     dxLayoutControl1Item7: TdxLayoutItem;
-    cdsSexoId: TIntegerField;
-    cdsSexoDescricao: TStringField;
-    cdsFuncId: TIntegerField;
-    cdsFuncNome: TStringField;
-    dxLayoutControl1Group5: TdxLayoutGroup;
     dbimgFoto: TcxDBImage;
     dxLayoutControl1Item8: TdxLayoutItem;
     dxLayoutControl1Group3: TdxLayoutAutoCreatedGroup;
@@ -61,7 +54,28 @@ type
     dxLayoutControl1Item10: TdxLayoutItem;
     btnDeleteFoto: TcxButton;
     dxLayoutControl1Group6: TdxLayoutAutoCreatedGroup;
-    procedure FormCreate(Sender: TObject); override;
+    dxLayoutControl1Group7: TdxLayoutGroup;
+    dxLayoutControl1Group9: TdxLayoutGroup;
+    dxLayoutControl1Group10: TdxLayoutGroup;
+    grdContatoDBTableView1: TcxGridDBTableView;
+    grdContatoLevel1: TcxGridLevel;
+    grdContato: TcxGrid;
+    dxLayoutControl1Item11: TdxLayoutItem;
+    dxLayoutControl1Group11: TdxLayoutGroup;
+    dxLayoutControl1Group5: TdxLayoutGroup;
+    dbtxtedtLogradouroEnde: TcxDBTextEdit;
+    dxLayoutControl1Item13: TdxLayoutItem;
+    dbtxtedtNumeroEnde: TcxDBTextEdit;
+    dxLayoutControl1Item14: TdxLayoutItem;
+    dblkpcbbLocalidadeEnde: TcxDBLookupComboBox;
+    dxLayoutControl1Item15: TdxLayoutItem;
+    dbmskedtCEPende: TcxDBMaskEdit;
+    dxLayoutControl1Item12: TdxLayoutItem;
+    dxLayoutControl1Group8: TdxLayoutAutoCreatedGroup;
+    dxLayoutControl1Group12: TdxLayoutAutoCreatedGroup;
+    dsEnde: TDataSource;
+    dsMCont: TDataSource;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -74,12 +88,13 @@ var
 implementation
 
 uses
-  untRegistration;
+  untRegistration, untDmRegistration;
 
 {$R *.dfm}
 
 procedure TFmRegCliente.FormCreate(Sender: TObject);
 begin
+  inherited;
   FReg := TRegCliente.Create;
 end;
 
