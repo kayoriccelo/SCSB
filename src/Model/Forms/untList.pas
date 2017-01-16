@@ -40,7 +40,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction); override;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); override;
     procedure FormShow(Sender: TObject); override;
-    
+
     function Configuration: Boolean; override;
 
   public
@@ -82,7 +82,6 @@ begin
   FmListClientes.OnClose := FormClose;
   FmListClientes.OnKeyDown := FormKeyDown;
   FmListClientes.OnShow := FormShow;
-  FmListClientes.Load := Load;
 end;
 
 constructor TListCliente.Create;
@@ -134,7 +133,7 @@ end;
 procedure TListCliente.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FmListClientes.cdsList.Close();
-  Action := caFree;
+  // Action := caFree;
 end;
 
 procedure TListCliente.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

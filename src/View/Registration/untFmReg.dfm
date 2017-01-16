@@ -15,6 +15,8 @@ object FmReg: TFmReg
   KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object pnlButtons: TPanel
@@ -111,6 +113,12 @@ object FmReg: TFmReg
     Width = 649
     Height = 381
     Align = alClient
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 4
     LayoutLookAndFeel = dxLayoutSkinLookAndFeel1
     object dxLayoutControl1Group_Root: TdxLayoutGroup

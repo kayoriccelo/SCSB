@@ -41,15 +41,17 @@ type
     dxLayoutSkinLookAndFeel1: TdxLayoutSkinLookAndFeel;
     dsReg: TDataSource;
     cdsReg: TClientDataSet;
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject); virtual;
   private
     FTypeCrud: eTypeCrud;
     FIndex: Integer;
-    FReg: TReg;
 
   protected
+    FReg: TReg;
 
   public
-    Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
+    // Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
 
     property TypeCrud: eTypeCrud read FTypeCrud write FTypeCrud;
     property Id: Integer read FIndex write FIndex;
@@ -66,5 +68,15 @@ uses
   untFmList;
 
 {$R *.dfm}
+
+procedure TFmReg.FormCreate(Sender: TObject);
+begin
+  //
+end;
+
+procedure TFmReg.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FReg);
+end;
 
 end.

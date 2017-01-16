@@ -11,7 +11,6 @@ inherited FmListClientes: TFmListClientes
     Font.Charset = ANSI_CHARSET
     Font.Name = 'Segoe UI'
     ParentFont = False
-    ExplicitLeft = -2
     inherited dbGridTVTblView: TcxGridDBTableView
       object dbGridTVTblViewId: TcxGridDBColumn
         DataBinding.FieldName = 'Id'

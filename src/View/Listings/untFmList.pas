@@ -42,14 +42,16 @@ type
     dbGridTVTblView: TcxGridDBTableView;
     dbGridLvlGridLevel: TcxGridLevel;
     cdsList: TClientDataSet;
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject); virtual;
   private
 
   protected
-    FList: TLists;
+    FLists: TLists;
 
   public
-    Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
-    property List: TLists read FList write FList;
+    // Load: function: Boolean of object; // KayoRiccelo - Anonymous Methods
+    property Lists: TLists read FLists write FLists;
 
   end;
 
@@ -59,5 +61,15 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFmList.FormCreate(Sender: TObject);
+begin
+  //
+end;
+
+procedure TFmList.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FLists);
+end;
 
 end.

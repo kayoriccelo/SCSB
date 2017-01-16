@@ -29,6 +29,7 @@ type
     function Delete(AObject: TObject): Boolean; virtual;
     function Select(AIndex: Integer): TObject; virtual;
     function List(AProperty: String; AValue: Variant): TList<TObject>; virtual;
+    function NextCod: Integer; virtual;
 
     function Validate(ATypeCrud: eTypeCrud; AObject: TObject): Boolean; virtual; abstract;
 
@@ -218,6 +219,11 @@ end;
 function TBR.List(AProperty: String; AValue: Variant): TList<TObject>;
 begin
   result := FDAO.List(AProperty, AValue);
+end;
+
+function TBR.NextCod: Integer;
+begin
+  result := FDAO.NextCod;
 end;
 
 function TBR.Select(AIndex: Integer): TObject;

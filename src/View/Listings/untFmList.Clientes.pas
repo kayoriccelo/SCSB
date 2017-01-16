@@ -40,8 +40,7 @@ type
     cdsListDescricaoSexo: TStringField;
     cdsListCodigoFunc: TStringField;
     cdsListNomeFunc: TStringField;
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject); override;
   private
 
   protected
@@ -59,14 +58,7 @@ implementation
 
 procedure TFmListClientes.FormCreate(Sender: TObject);
 begin
-  inherited;
-  FList := TListCliente.Create;
-end;
-
-procedure TFmListClientes.FormDestroy(Sender: TObject);
-begin
-  inherited;
-  FreeAndNil(FList);
+  FLists := TListCliente.Create;
 end;
 
 end.

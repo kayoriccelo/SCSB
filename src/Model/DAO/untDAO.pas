@@ -28,6 +28,7 @@ type
     function Delete(AObject: TObject): Boolean; virtual; abstract;
     function Select(AIndex: Integer): TObject; virtual; abstract;
     function List(AProperty: String; AValue: Variant): TList<TObject>; virtual; abstract;
+    function NextCod: Integer; virtual; abstract;
 
     constructor Create;
     destructor Destroy;
@@ -95,6 +96,7 @@ type
     function Delete(AObject: TObject): Boolean; override;
     function Select(AIndex: Integer): TObject; override;
     function List(AProperty: String; AValue: Variant): TList<TObject>; override;
+    function NextCod: Integer; override;
 
   end;
 
@@ -434,6 +436,16 @@ begin
   finally
     FreeAndNil(loDAOSexo);
     FreeAndNil(loDAOFuncionario);
+  end;
+end;
+
+function TDAOCliente.NextCod: Integer;
+begin
+  try
+//    FQry.Open('select MAX(Id) as NextCod from tb_cliente');
+//    Result := FQry.FieldByName('NextCod').Value;
+  except
+    Result := 1;
   end;
 end;
 

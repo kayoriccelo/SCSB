@@ -18,6 +18,8 @@ object FmList: TFmList
   Position = poMainFormCenter
   Visible = True
   WindowState = wsMaximized
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object imgTitle: TcxImage
