@@ -39,6 +39,10 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState); override;
     procedure FormShow(Sender: TObject); override;
 
+    procedure btnInsertContatoClick(Sender: TObject);
+    procedure btnUpdateContatoClick(Sender: TObject);
+    procedure btnDeleteContatoClick(Sender: TObject);
+
     function Configuration: Boolean; override;
   public
     function Load: Boolean; override;
@@ -51,7 +55,7 @@ implementation
 
 uses
   System.SysUtils, untFmRegCliente, Winapi.Windows, untEntity,
-  untDmRegistration;
+  untDmRegistration, untControl.Forms;
 
 { TReg }
 
@@ -66,6 +70,25 @@ procedure TRegCliente.btnCancelClick(Sender: TObject);
 begin
   FmRegCliente.cdsReg.Cancel;
   FmRegCliente.Close;
+end;
+
+procedure TRegCliente.btnDeleteContatoClick(Sender: TObject);
+var
+  loBR: TBRContato;
+begin
+  try
+    loBR := TBRContato.Create;
+    loBR.Delete(loBR.Select(FmRegCliente.dsMCont.DataSet.FieldByName('IdContato').Value));
+    // refresh
+  finally
+    FreeAndNil(loBR);
+  end;
+end;
+
+procedure TRegCliente.btnInsertContatoClick(Sender: TObject);
+begin
+  ControlForms.RunReg(regContato, tcdInsert, 0);
+  // refresh
 end;
 
 procedure TRegCliente.btnPostClick(Sender: TObject);
@@ -93,69 +116,28 @@ begin
     loCliente.DataNascimento := FmRegCliente.cdsRegDataNascimento.Value;
     loCliente.Rg := FmRegCliente.cdsRegRg.Value;
     loCliente.Cpf := FmRegCliente.cdsRegCpf.Value;
-    loCliente.FkSexo := TSexo(loBRSexo.Select(FmRegCliente.cdsRegIdSexo.Value));
-    loCliente.FkFuncionario := TFuncionario(loBRFunc.Select(FmRegCliente.cdsRegIdFunc.Value));
+
+    if FmRegCliente.cdsRegIdSexo.Value > 0 then
+      loCliente.FkSexo := TSexo(loBRSexo.Select(FmRegCliente.cdsRegIdSexo.Value));
+    if FmRegCliente.cdsRegIdFunc.Value > 0 then
+      loCliente.FkFuncionario := TFuncionario(loBRFunc.Select(FmRegCliente.cdsRegIdFunc.Value));
+
+    if FmRegCliente.dsEnde.DataSet.RecordCount > 0 then
+    begin
+      loCliente.FkEndereco := TEndereco.Create;
+      loCliente.FkEndereco.Cep := FmRegCliente.dsEnde.DataSet.FieldByName('Cep').Value;
+      loCliente.FkEndereco.Logradouro := FmRegCliente.dsEnde.DataSet.FieldByName('Logradouro').Value;
+      loCliente.FkEndereco.Numero := FmRegCliente.dsEnde.DataSet.FieldByName('Numero').Value;
+      loCliente.FkEndereco.FkLocalidade :=
+        TLocalidade(loBRLocalidade.Select(FmRegCliente.dsEnde.DataSet.FieldByName('IdLocalidade').Value));
+    end;
 
     case FmRegCliente.TypeCrud of
       tcdInsert:
-        begin
-          if FmRegCliente.dsEnde.DataSet.RecordCount > 0 then
-          begin
-            loCliente.FkEndereco := TEndereco.Create;
-            loCliente.FkEndereco.Cep := FmRegCliente.dsEnde.DataSet.FieldByName('Cep').Value;
-            loCliente.FkEndereco.Logradouro := FmRegCliente.dsEnde.DataSet.FieldByName('Logradouro').Value;
-            loCliente.FkEndereco.Numero := FmRegCliente.dsEnde.DataSet.FieldByName('Numero').Value;
-            loCliente.FkEndereco.FkLocalidade :=
-              TLocalidade(loBRLocalidade.Select(FmRegCliente.dsEnde.DataSet.FieldByName('IdLocalidade').Value));
-          end;
-
-          BR.Insert(loCliente);
-        end;
+        BR.Insert(loCliente);
       tcdUpdate:
         begin
           loCliente.Id := FmRegCliente.cdsRegId.Value;
-
-          if FmRegCliente.dsEnde.DataSet.RecordCount > 0 then
-          begin
-            loCliente.FkEndereco := TEndereco(loBREndereco.Select(FmRegCliente.dsEnde.DataSet.FieldByName('Id').Value));
-            loCliente.FkEndereco.Id := FmRegCliente.dsEnde.DataSet.FieldByName('Id').Value;
-            loCliente.FkEndereco.Cep := FmRegCliente.dsEnde.DataSet.FieldByName('Cep').Value;
-            loCliente.FkEndereco.Logradouro := FmRegCliente.dsEnde.DataSet.FieldByName('Logradouro').Value;
-            loCliente.FkEndereco.Numero := FmRegCliente.dsEnde.DataSet.FieldByName('Numero').Value;
-            loCliente.FkEndereco.FkLocalidade :=
-              TLocalidade(loBRLocalidade.Select(FmRegCliente.dsEnde.DataSet.FieldByName('IdLocalidade').Value));
-          end;
-
-          if FmRegCliente.dsMCont.DataSet.RecordCount > 0 then
-          begin
-            FmRegCliente.dsMCont.DataSet.First;
-
-            while not FmRegCliente.dsMCont.DataSet.eof do
-            begin
-              if Assigned(loBRMCont.Select(FmRegCliente.dsMCont.DataSet.FieldByName('Id').Value)) then
-                loBRMCont.Update(loBRMCont.Select(FmRegCliente.dsMCont.DataSet.FieldByName('Id').Value))
-              else
-              begin
-                try
-                  loObject := TMeioContato.Create;
-                  with TMeioContato(loObject) do
-                  begin
-                    FkCliente := loCliente;
-
-//                    FkContato := ;
-
-                  end;
-
-                  loBRMCont.Insert(loObject);
-                finally
-                  FreeAndNil(loObject);
-                end;
-              end;
-
-              FmRegCliente.dsMCont.DataSet.Next;
-            end;
-          end;
-
           BR.Update(loCliente);
         end;
     end;
@@ -164,12 +146,17 @@ begin
     FmRegCliente.cdsReg.Cancel;
 
     FreeAndNil(loCliente);
-
     FreeAndNil(loBRSexo);
     FreeAndNil(loBRFunc);
     FreeAndNil(loBREndereco);
     FreeAndNil(loBRMCont);
   end;
+end;
+
+procedure TRegCliente.btnUpdateContatoClick(Sender: TObject);
+begin
+  ControlForms.RunReg(regContato, tcdInsert, FmRegCliente.dsMCont.DataSet.FieldByName('Id').Value);
+  // refresh
 end;
 
 function TRegCliente.Configuration: Boolean;
@@ -178,6 +165,9 @@ begin
   FmRegCliente.btnCancel.OnClick := btnCancelClick;
   FmRegCliente.OnKeyDown := FormKeyDown;
   FmRegCliente.OnShow := FormShow;
+  FmRegCliente.btnInsertContato.OnClick := btnInsertContatoClick;
+  FmRegCliente.btnUpdateContato.OnClick := btnUpdateContatoClick;
+  FmRegCliente.btnDeleteContato.OnClick := btnDeleteContatoClick;
 end;
 
 constructor TRegCliente.Create;

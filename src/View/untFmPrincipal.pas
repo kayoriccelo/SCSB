@@ -12,14 +12,21 @@ uses
   dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
   dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus,
   dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine,
-  dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue, cxClasses, dxSkinsForm;
+  dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue, cxClasses, dxSkinsForm, cxControls, dxRibbonSkins, dxRibbonCustomizationForm,
+  dxSkinsdxStatusBarPainter, dxSkinsdxBarPainter, dxBar, dxStatusBar, dxRibbon;
 
 type
   TFmMain = class(TForm)
-    cxButton1: TcxButton;
+    dxRibbon1Tab1: TdxRibbonTab;
+    dxRibbon1: TdxRibbon;
+    dxStatusBar1: TdxStatusBar;
+    dxBarManager1: TdxBarManager;
+    dxBarManager1Bar1: TdxBar;
+    dxBarLargeButton1: TdxBarLargeButton;
+    dxSkinController1: TdxSkinController;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure cxButton1Click(Sender: TObject);
+    procedure dxBarLargeButton1Click(Sender: TObject);
   private
     FConnection: TConnection;
 
@@ -37,7 +44,7 @@ uses
 
 {$R *.dfm}
 
-procedure TFmMain.cxButton1Click(Sender: TObject);
+procedure TFmMain.dxBarLargeButton1Click(Sender: TObject);
 begin
   ControlForms.RunList(lstCliente);
 end;

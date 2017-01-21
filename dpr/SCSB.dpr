@@ -25,7 +25,8 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   untFmRegCliente in '..\src\View\Registration\untFmRegCliente.pas' {FmRegCliente},
-  untDmRegistration in '..\src\Model\Forms\untDmRegistration.pas' {DmRegistration: TDataModule};
+  untDmRegistration in '..\src\Model\Forms\untDmRegistration.pas' {DmRegistration: TDataModule},
+  untFmRegContato in '..\src\View\Registration\untFmRegContato.pas' {FmRegContato};
 
 {$R *.res}
 
@@ -37,5 +38,6 @@ begin
   Application.CreateForm(TFmMain, FmMain);
   Application.CreateForm(TFmRegCliente, FmRegCliente);
   Application.CreateForm(TDmRegistration, DmRegistration);
+  Application.CreateForm(TFmRegContato, FmRegContato);
   Application.Run;
 end.

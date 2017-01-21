@@ -145,4 +145,27 @@ object DmRegistration: TDmRegistration
     Left = 136
     Top = 74
   end
+  object cdsTipoContato: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 320
+    Top = 9
+    object cdsTipoContatoId: TIntegerField
+      FieldName = 'Id'
+    end
+    object cdsTipoContatoCodigo: TStringField
+      FieldName = 'Codigo'
+      Size = 10
+    end
+    object cdsTipoContatoDescricao: TStringField
+      FieldName = 'Descricao'
+      Size = 140
+    end
+  end
+  object dsTipoContato: TDataSource
+    AutoEdit = False
+    DataSet = cdsTipoContato
+    Left = 320
+    Top = 74
+  end
 end

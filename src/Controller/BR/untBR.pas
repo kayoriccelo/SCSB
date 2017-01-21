@@ -134,6 +134,12 @@ type
     constructor Create; override;
   end;
 
+  TBRContato = class(TBR)
+  private
+  public
+    constructor Create; override;
+  end;
+
 {$ENDREGION}
 
 {$REGION '    BR Movements    '}
@@ -402,6 +408,13 @@ end;
 constructor TBRVendaAux.Create;
 begin
   FDAO := TDAOVendaAux.Create;
+end;
+
+{ TBRContato }
+
+constructor TBRContato.Create;
+begin
+  FDAO := TDAOContato.Create;
 end;
 
 end.

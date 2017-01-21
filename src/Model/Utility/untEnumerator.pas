@@ -23,7 +23,7 @@ type
 
   eMovements = (mvtAgendamento);
 
-  eRegistration = (regEmpresa, regUsuario, regCliente, regFuncionario, regFornecedor, regFuncao, regServico, regProduto);
+  eRegistration = (regEmpresa, regUsuario, regCliente, regFuncionario, regFornecedor, regFuncao, regServico, regProduto, regContato);
 
   eList = (lstUsuario, lstCliente, lstFuncionario, lstFornecedor, lstFuncao, lstServico, lstProduto);
 

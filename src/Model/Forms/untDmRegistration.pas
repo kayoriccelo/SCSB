@@ -35,6 +35,11 @@ type
     cdsLocaliIdCidade: TIntegerField;
     cdsMContEhPrincipal: TBooleanField;
     cdsMContValor: TStringField;
+    cdsTipoContato: TClientDataSet;
+    dsTipoContato: TDataSource;
+    cdsTipoContatoId: TIntegerField;
+    cdsTipoContatoCodigo: TStringField;
+    cdsTipoContatoDescricao: TStringField;
   private
     { Private declarations }
   public

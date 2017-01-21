@@ -1,5 +1,7 @@
 inherited FmRegCliente: TFmRegCliente
   Caption = 'Clientes'
+  ExplicitWidth = 655
+  ExplicitHeight = 500
   PixelsPerInch = 96
   TextHeight = 13
   inherited lblTitleMain: TcxLabel
@@ -69,7 +71,7 @@ inherited FmRegCliente: TFmRegCliente
       Width = 126
     end
     object dbtxtedtRG: TcxDBTextEdit [6]
-      Left = 423
+      Left = 429
       Top = 69
       DataBinding.DataField = 'Rg'
       DataBinding.DataSource = dsReg
@@ -87,7 +89,7 @@ inherited FmRegCliente: TFmRegCliente
       Width = 128
     end
     object dblkpcbbSexo: TcxDBLookupComboBox [8]
-      Left = 441
+      Left = 448
       Top = 99
       DataBinding.DataField = 'IdSexo'
       DataBinding.DataSource = dsReg
@@ -119,7 +121,7 @@ inherited FmRegCliente: TFmRegCliente
     object grdContato: TcxGrid [10]
       Left = 170
       Top = 201
-      Width = 391
+      Width = 405
       Height = 140
       TabOrder = 10
       object grdContatoDBTableView1: TcxGridDBTableView
@@ -140,7 +142,7 @@ inherited FmRegCliente: TFmRegCliente
       DataBinding.DataField = 'Numero'
       DataBinding.DataSource = dsEnde
       Style.HotTrack = False
-      TabOrder = 13
+      TabOrder = 16
       Visible = False
       Width = 67
     end
@@ -150,7 +152,7 @@ inherited FmRegCliente: TFmRegCliente
       DataBinding.DataField = 'Cep'
       DataBinding.DataSource = dsEnde
       Style.HotTrack = False
-      TabOrder = 11
+      TabOrder = 14
       Visible = False
       Width = 76
     end
@@ -160,7 +162,7 @@ inherited FmRegCliente: TFmRegCliente
       DataBinding.DataField = 'Logradouro'
       DataBinding.DataSource = dsEnde
       Style.HotTrack = False
-      TabOrder = 12
+      TabOrder = 15
       Visible = False
       Width = 206
     end
@@ -171,9 +173,33 @@ inherited FmRegCliente: TFmRegCliente
       DataBinding.DataSource = dsEnde
       Properties.ListColumns = <>
       Style.HotTrack = False
-      TabOrder = 14
+      TabOrder = 17
       Visible = False
       Width = 214
+    end
+    object btnInsertContato: TcxButton [15]
+      Left = 582
+      Top = 201
+      Width = 31
+      Height = 29
+      Caption = 'N'
+      TabOrder = 11
+    end
+    object btnUpdateContato: TcxButton [16]
+      Left = 582
+      Top = 237
+      Width = 31
+      Height = 29
+      Caption = 'A'
+      TabOrder = 12
+    end
+    object btnDeleteContato: TcxButton [17]
+      Left = 582
+      Top = 273
+      Width = 31
+      Height = 29
+      Caption = 'X'
+      TabOrder = 13
     end
     inherited dxLayoutControl1Group_Root: TdxLayoutGroup
       ItemIndex = 1
@@ -313,10 +339,12 @@ inherited FmRegCliente: TFmRegCliente
       Parent = dxLayoutControl1Group7
       CaptionOptions.Text = 'Contatos'
       ButtonOptions.Buttons = <>
+      LayoutDirection = ldHorizontal
       Index = 0
     end
     object dxLayoutControl1Item11: TdxLayoutItem
       Parent = dxLayoutControl1Group10
+      AlignHorz = ahLeft
       CaptionOptions.Visible = False
       Control = grdContato
       ControlOptions.ShowBorder = False
@@ -331,6 +359,7 @@ inherited FmRegCliente: TFmRegCliente
     end
     object dxLayoutControl1Group5: TdxLayoutGroup
       Parent = dxLayoutControl1Group9
+      AlignVert = avClient
       CaptionOptions.Text = 'Dados'
       ButtonOptions.Buttons = <>
       Index = 0
@@ -375,6 +404,35 @@ inherited FmRegCliente: TFmRegCliente
     object dxLayoutControl1Group12: TdxLayoutAutoCreatedGroup
       Parent = dxLayoutControl1Group5
       LayoutDirection = ldHorizontal
+      Index = 1
+      AutoCreated = True
+    end
+    object dxLayoutControl1Item16: TdxLayoutItem
+      Parent = dxLayoutControl1Group14
+      CaptionOptions.Text = 'cxButton1'
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = btnInsertContato
+      ControlOptions.ShowBorder = False
+      Index = 0
+    end
+    object dxLayoutControl1Item17: TdxLayoutItem
+      Parent = dxLayoutControl1Group14
+      CaptionOptions.Visible = False
+      Visible = False
+      Control = btnUpdateContato
+      ControlOptions.ShowBorder = False
+      Index = 1
+    end
+    object dxLayoutControl1Item18: TdxLayoutItem
+      Parent = dxLayoutControl1Group14
+      CaptionOptions.Visible = False
+      Control = btnDeleteContato
+      ControlOptions.ShowBorder = False
+      Index = 2
+    end
+    object dxLayoutControl1Group14: TdxLayoutAutoCreatedGroup
+      Parent = dxLayoutControl1Group10
       Index = 1
       AutoCreated = True
     end

@@ -11,6 +11,9 @@ unit untEntity;
 
 interface
 
+uses
+  System.Generics.Collections;
+
 type
 
 {$REGION '    References Registration    '}
@@ -30,6 +33,7 @@ type
   TEstado = class;
   TSexo = class;
   TTipoUsuario = class;
+  TTipoContato = class;
   TLocalidade = class;
   TMeioContato = class;
 {$ENDREGION}
@@ -58,6 +62,7 @@ type
     FFkSexo: TSexo;
     FFkFuncionario: TFuncionario;
     FFkEndereco: TEndereco;
+    FLstMeioContato: TList<TMeioContato>;
 
   public
     property Id: Integer read FId write FId;
@@ -70,6 +75,7 @@ type
     property FkSexo: TSexo read FFkSexo write FFkSexo;
     property FkFuncionario: TFuncionario read FFkFuncionario write FFkFuncionario;
     property FkEndereco: TEndereco read FFkEndereco write FFkEndereco;
+    property LstMeioContato: TList<TMeioContato> read FLstMeioContato write FLstMeioContato;
 
     constructor Create;
     destructor Destroy;
@@ -265,10 +271,12 @@ type
     FId: Integer;
     FEhPrincipal: Boolean;
     FValor: String;
+    FTipoContato: TTipoContato;
 
   public
     property Id: Integer read FId write FId;
     property EhPrincipal: Boolean read FEhPrincipal write FEhPrincipal;
+    property TipoContato: TTipoContato read FTipoContato write FTipoContato;
     property Valor: String read FValor write FValor;
 
   end;
@@ -340,6 +348,19 @@ type
 
   TTipoUsuario = class
   private
+    FId: Integer;
+    FCodigo: String;
+    FDescricao: String;
+
+  public
+    property Id: Integer read FId write FId;
+    property Codigo: String read FCodigo write FCodigo;
+    property Descricao: String read FDescricao write FDescricao;
+
+  end;
+
+  TTipoContato = class
+    private
     FId: Integer;
     FCodigo: String;
     FDescricao: String;
@@ -578,12 +599,12 @@ end;
 
 constructor TCliente.Create;
 begin
-
+  FLstMeioContato := TList<TMeioContato>.Create;
 end;
 
 destructor TCliente.Destroy;
 begin
-
+  FreeAndNil(FLstMeioContato);
 end;
 
 { TEmpresa }

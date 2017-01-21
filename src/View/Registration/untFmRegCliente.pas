@@ -75,6 +75,13 @@ type
     dxLayoutControl1Group12: TdxLayoutAutoCreatedGroup;
     dsEnde: TDataSource;
     dsMCont: TDataSource;
+    btnInsertContato: TcxButton;
+    dxLayoutControl1Item16: TdxLayoutItem;
+    dxLayoutControl1Item17: TdxLayoutItem;
+    btnUpdateContato: TcxButton;
+    dxLayoutControl1Item18: TdxLayoutItem;
+    btnDeleteContato: TcxButton;
+    dxLayoutControl1Group14: TdxLayoutAutoCreatedGroup;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }

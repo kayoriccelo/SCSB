@@ -188,6 +188,17 @@ type
 
   end;
 
+  TDAOContato = class(TDAO)
+  private
+  public
+    function Insert(AObject: TObject): Boolean; override;
+    function Update(AObject: TObject): Boolean; override;
+    function Delete(AObject: TObject): Boolean; override;
+    function Select(AIndex: Integer): TObject; override;
+    function List(AProperty: String; AValue: Variant): TList<TObject>; override;
+
+  end;
+
 {$ENDREGION}
 {$REGION '    DAO Movements    '}
 
@@ -1224,6 +1235,33 @@ begin
 end;
 
 function TDAOVendaAux.Update(AObject: TObject): Boolean;
+begin
+
+end;
+
+{ TDAOContato }
+
+function TDAOContato.Delete(AObject: TObject): Boolean;
+begin
+
+end;
+
+function TDAOContato.Insert(AObject: TObject): Boolean;
+begin
+
+end;
+
+function TDAOContato.List(AProperty: String; AValue: Variant): TList<TObject>;
+begin
+
+end;
+
+function TDAOContato.Select(AIndex: Integer): TObject;
+begin
+
+end;
+
+function TDAOContato.Update(AObject: TObject): Boolean;
 begin
 
 end;
